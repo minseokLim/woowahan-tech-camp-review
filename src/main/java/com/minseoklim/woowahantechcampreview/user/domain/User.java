@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import com.minseoklim.woowahantechcampreview.common.BaseEntity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @Id
@@ -37,19 +39,10 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getLoginId() {
-        return loginId;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public String getEmail() {
-        return email;
+    public void update(final User other) {
+        this.loginId = other.getLoginId();
+        this.password = other.getPassword();
+        this.nickName = other.getNickName();
+        this.email = other.getEmail();
     }
 }

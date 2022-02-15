@@ -2,8 +2,14 @@ package com.minseoklim.woowahantechcampreview.user.ui;
 
 import java.net.URI;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +32,32 @@ public class UserController {
         final UserResponse createdUser = userService.create(userRequest);
         final URI uri = URI.create("/users" + createdUser.getId());
         return ResponseEntity.created(uri).body(createdUser);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<UserResponse>> list(final Pageable pageable) {
+        final Page<UserResponse> users = userService.list(pageable);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> get(@PathVariable final Long id) {
+        final UserResponse user = userService.get(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(
+        @PathVariable final Long id,
+        @RequestBody final UserRequest userRequest
+    ) {
+        final UserResponse user = userService.update(id, userRequest);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable final Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

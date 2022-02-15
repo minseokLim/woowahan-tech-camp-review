@@ -8,3 +8,23 @@ Content-Type: application/json
   "nickName": "테스트계정",
   "email": "test@test.com"
 }
+
+###
+GET {{host}}/users
+
+###
+GET {{host}}/users/1
+
+###
+PUT {{host}}/users/1
+Content-Type: application/json
+
+{
+  "loginId": "newId",
+  "password": "newPassword",
+  "nickName": "newNickName",
+  "email": "new@test.com"
+}
+
+###
+DELETE {{host}}/users/1
