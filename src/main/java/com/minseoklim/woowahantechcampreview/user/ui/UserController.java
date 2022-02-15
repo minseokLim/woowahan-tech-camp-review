@@ -1,16 +1,18 @@
 package com.minseoklim.woowahantechcampreview.user.ui;
 
-import com.minseoklim.woowahantechcampreview.user.application.UserService;
-import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
-import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
-import lombok.RequiredArgsConstructor;
+import java.net.URI;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
+import com.minseoklim.woowahantechcampreview.user.application.UserService;
+import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
+import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")

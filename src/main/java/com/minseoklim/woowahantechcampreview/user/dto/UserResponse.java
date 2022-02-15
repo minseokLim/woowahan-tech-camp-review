@@ -1,6 +1,7 @@
 package com.minseoklim.woowahantechcampreview.user.dto;
 
 import com.minseoklim.woowahantechcampreview.user.domain.User;
+
 import lombok.Getter;
 
 @Getter

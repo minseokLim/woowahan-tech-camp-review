@@ -1,14 +1,15 @@
 package com.minseoklim.woowahantechcampreview.user.domain;
 
-import com.minseoklim.woowahantechcampreview.common.BaseEntity;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.minseoklim.woowahantechcampreview.common.BaseEntity;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
