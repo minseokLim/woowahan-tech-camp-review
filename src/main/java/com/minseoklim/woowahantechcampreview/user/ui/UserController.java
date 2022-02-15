@@ -12,13 +12,14 @@ import com.minseoklim.woowahantechcampreview.user.application.UserService;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    public UserController(final UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody final UserRequest userRequest) {

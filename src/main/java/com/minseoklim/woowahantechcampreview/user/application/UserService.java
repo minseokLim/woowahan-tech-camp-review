@@ -8,13 +8,14 @@ import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    public UserService(final UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserResponse create(final UserRequest userRequest) {
         final User createdUser = userRepository.save(userRequest.toEntity());
