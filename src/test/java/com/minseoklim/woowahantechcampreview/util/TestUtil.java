@@ -31,7 +31,7 @@ public class TestUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> extractJsonFileAsMap(final String filePath) {
+    public static Map<String, Object> parseJsonFileAsMap(final String filePath) {
         try {
             final var content = readFile(filePath);
             return OBJECT_MAPPER.createParser(content).readValueAs(Map.class);
