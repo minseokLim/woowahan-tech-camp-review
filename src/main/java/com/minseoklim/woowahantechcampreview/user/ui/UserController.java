@@ -2,6 +2,8 @@ package com.minseoklim.woowahantechcampreview.user.ui;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(@RequestBody final UserRequest userRequest) {
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody final UserRequest userRequest) {
         final UserResponse createdUser = userService.create(userRequest);
         final URI uri = URI.create("/users" + createdUser.getId());
         return ResponseEntity.created(uri).body(createdUser);
@@ -49,7 +51,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(
         @PathVariable final Long id,
-        @RequestBody final UserRequest userRequest
+        @Valid @RequestBody final UserRequest userRequest
     ) {
         final UserResponse user = userService.update(id, userRequest);
         return ResponseEntity.ok(user);
