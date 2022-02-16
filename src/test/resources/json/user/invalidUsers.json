@@ -1,0 +1,56 @@
+[
+  {
+    "loginId": "test",
+    "password": "password1234",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "longlonglonglonglongl",
+    "password": "password1234",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "TESTID",
+    "password": "password1234",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234@#!",
+    "password": "password1234",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234",
+    "password": "passwor",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234",
+    "password": "password",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234",
+    "password": "12345678",
+    "nickName": "테스트계정",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234",
+    "password": "password123",
+    "nickName": "테스트계정!@#",
+    "email": "test@test.com"
+  },
+  {
+    "loginId": "test1234",
+    "password": "password123",
+    "nickName": "테스트계정!@#",
+    "email": "test#test.com"
+  }
+]

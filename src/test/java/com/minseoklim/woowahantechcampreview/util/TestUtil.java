@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -25,28 +24,22 @@ public class TestUtil {
         assertThat(response.statusCode()).isEqualTo(httpStatus.value());
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, Object> extractResponseAsMap(final ExtractableResponse<Response> response) {
-        return response.as(Map.class);
+    public static <T> T extractResponse(final ExtractableResponse<Response> response, final Class<T> clazz) {
+        return response.as(clazz);
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, Object> parseJsonFileAsMap(final String filePath) {
+    public static <T> T readJsonFile(final String filePath, final Class<T> clazz) {
         try {
             final var content = readFile(filePath);
-            return OBJECT_MAPPER.createParser(content).readValueAs(Map.class);
+            return OBJECT_MAPPER.readValue(content, clazz);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String readFile(final String filePath) {
-        try {
-            final var br = getBufferedReader(filePath);
-            return readAllLines(br);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private static String readFile(final String filePath) throws IOException {
+        final var br = getBufferedReader(filePath);
+        return readAllLines(br);
     }
 
     private static BufferedReader getBufferedReader(final String filePath) throws IOException {

@@ -3,7 +3,7 @@ POST {{host}}/users
 Content-Type: application/json
 
 {
-  "loginId": "testId",
+  "loginId": "test1234",
   "password": "password1234",
   "nickName": "테스트계정",
   "email": "test@test.com"
@@ -20,9 +20,9 @@ PUT {{host}}/users/1
 Content-Type: application/json
 
 {
-  "loginId": "newId",
-  "password": "newPassword",
-  "nickName": "newNickName",
+  "loginId": "new1234",
+  "password": "newPassword1234",
+  "nickName": "newNickNm",
   "email": "new@test.com"
 }
 

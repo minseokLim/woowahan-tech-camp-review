@@ -3,9 +3,12 @@ package com.minseoklim.woowahantechcampreview.user.acceptance;
 import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 
 import com.minseoklim.woowahantechcampreview.AcceptanceTest;
@@ -14,14 +17,16 @@ import com.minseoklim.woowahantechcampreview.util.RequestUtil;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
+@SuppressWarnings("unchecked")
 public class UserAcceptanceTest extends AcceptanceTest {
     public static final String USER_FILE_PATH1 = "json/user/user1.json";
     public static final String USER_FILE_PATH2 = "json/user/user2.json";
+    public static final String INVALID_USERS_FILE_PATH = "json/user/invalidUsers.json";
 
     @Test
     void 사용자_관리() {
         // given
-        final var user = parseJsonFileAsMap(USER_FILE_PATH1);
+        final var user = readJsonFile(USER_FILE_PATH1, Map.class);
 
         // when
         final var createResponse = 사용자_생성_요청(user);
@@ -36,7 +41,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         사용자_목록_조회됨(listResponse);
 
         // given
-        final var createdUser = extractResponseAsMap(createResponse);
+        final var createdUser = extractResponse(createResponse, Map.class);
         final var createdUserId = createdUser.get("id");
 
         // when
@@ -46,7 +51,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         사용자_조회됨(getResponse, createdUser);
 
         // given
-        final var newUser = parseJsonFileAsMap(USER_FILE_PATH2);
+        final var newUser = readJsonFile(USER_FILE_PATH2, Map.class);
 
         // when
         final var updateResponse = 사용자_수정_요청(createdUserId, newUser);
@@ -59,6 +64,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         // then
         사용자_삭제됨(deleteResponse);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidUsers")
+    void 유효성검사(final Map<String, Object> invalidUser) {
+        // when
+        final var response = 사용자_생성_요청(invalidUser);
+
+        // then
+        사용자_생성_실패(response);
     }
 
     private static ExtractableResponse<Response> 사용자_생성_요청(final Map<String, Object> user) {
@@ -84,7 +99,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     private static void 사용자_조회됨(final ExtractableResponse<Response> response, final Map<String, Object> expectedUser) {
         assertHttpStatus(response, HttpStatus.OK);
-        final var user = extractResponseAsMap(response);
+        final var user = extractResponse(response, Map.class);
         assertThat(user).isEqualTo(expectedUser);
     }
 
@@ -94,7 +109,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     private static void 사용자_수정됨(final ExtractableResponse<Response> response, final Map<String, Object> expectedUser) {
         assertHttpStatus(response, HttpStatus.OK);
-        final var user = extractResponseAsMap(response);
+        final var user = extractResponse(response, Map.class);
         assertThat(user.get("loginId")).isEqualTo(expectedUser.get("loginId"));
         assertThat(user.get("nickName")).isEqualTo(expectedUser.get("nickName"));
         assertThat(user.get("email")).isEqualTo(expectedUser.get("email"));
@@ -106,5 +121,13 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     private static void 사용자_삭제됨(final ExtractableResponse<Response> response) {
         assertHttpStatus(response, HttpStatus.NO_CONTENT);
+    }
+
+    private static void 사용자_생성_실패(final ExtractableResponse<Response> response) {
+        assertHttpStatus(response, HttpStatus.BAD_REQUEST);
+    }
+
+    private static List<Map<String, Object>> provideInvalidUsers() {
+        return readJsonFile(INVALID_USERS_FILE_PATH, List.class);
     }
 }
