@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.minseoklim.woowahantechcampreview.common.BaseEntity;
+import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,7 +41,9 @@ public class User extends BaseEntity {
     }
 
     public void update(final User other) {
-        this.loginId = other.getLoginId();
+        if (!loginId.equals(other.getLoginId())) {
+            throw new BadRequestException("로그인 아이디는 수정할 수 없습니다.");
+        }
         this.password = other.getPassword();
         this.nickName = other.getNickName();
         this.email = other.getEmail();
