@@ -11,16 +11,19 @@ Content-Type: application/json
 
 ###
 GET {{host}}/users
+Authorization: Bearer {{auth_token}}
 
 ###
 GET {{host}}/users/1
+Authorization: Bearer {{auth_token}}
 
 ###
 PUT {{host}}/users/1
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
-  "loginId": "new1234",
+  "loginId": "test1234",
   "password": "newPassword1234",
   "nickName": "newNickNm",
   "email": "new@test.com"
@@ -28,3 +31,4 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/users/1
+Authorization: Bearer {{auth_token}}

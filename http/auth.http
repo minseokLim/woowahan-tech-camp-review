@@ -1,0 +1,10 @@
+###
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "loginId": "test1234",
+  "password": "password1234"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}

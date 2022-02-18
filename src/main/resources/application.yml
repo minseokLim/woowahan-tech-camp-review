@@ -4,6 +4,11 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   h2:
     console:
       enabled: true
@@ -11,3 +16,8 @@ spring:
 logging:
   level:
     org.hibernate.type.descriptor.sql: trace
+
+jwt:
+  # TODO: 운영 환경에서는 환경 변수 등으로 처리할 필요가 있다.
+  secret-key: 'ZnY3RCM6fWo9QkdjZHdqUD06IUdCfnJNdEUuampyUWVzMy1UQDdROUtwTndzVEducz86b2NYeEIlMCliLmMtPjhMaEdnQ0ddRzYrVV5zSmdjRn5vVWVvdnA/OGNlcUxtKWE0eg=='
+  expire-length: 3600000

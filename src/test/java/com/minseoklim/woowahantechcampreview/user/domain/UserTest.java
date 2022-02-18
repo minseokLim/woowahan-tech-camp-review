@@ -43,4 +43,16 @@ class UserTest {
         assertThatExceptionOfType(BadRequestException.class)
             .isThrownBy(() -> user.update(newUser));
     }
+
+    @Test
+    void addRole() {
+        // given
+        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+
+        // when
+        user.addRole(Role.ROLE_ADMIN);
+
+        // then
+        assertThat(user.getRoles()).contains(Role.ROLE_ADMIN);
+    }
 }

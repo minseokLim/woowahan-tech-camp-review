@@ -3,6 +3,8 @@ package com.minseoklim.woowahantechcampreview.user.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 
 import lombok.Getter;
@@ -24,7 +26,7 @@ public class UserRequest {
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
-    public User toEntity() {
-        return new User(loginId, password, nickName, email);
+    public User toEntity(final PasswordEncoder passwordEncoder) {
+        return new User(loginId, passwordEncoder.encode(password), nickName, email);
     }
 }

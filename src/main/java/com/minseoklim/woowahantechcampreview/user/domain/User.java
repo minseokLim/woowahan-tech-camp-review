@@ -1,6 +1,9 @@
 package com.minseoklim.woowahantechcampreview.user.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,11 +36,16 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @Embedded
+    private Roles roles = new Roles();
+
     public User(final String loginId, final String password, final String nickName, final String email) {
         this.loginId = loginId;
         this.password = password;
         this.nickName = nickName;
         this.email = email;
+
+        addRole(Role.ROLE_USER);
     }
 
     public void update(final User other) {
@@ -47,5 +55,13 @@ public class User extends BaseEntity {
         this.password = other.getPassword();
         this.nickName = other.getNickName();
         this.email = other.getEmail();
+    }
+
+    public void addRole(final Role role) {
+        roles.addRole(role);
+    }
+
+    public List<Role> getRoles() {
+        return roles.getRoles();
     }
 }
