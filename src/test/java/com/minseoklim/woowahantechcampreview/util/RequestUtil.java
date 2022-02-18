@@ -10,9 +10,12 @@ public class RequestUtil {
     private RequestUtil() {
     }
 
-    public static ExtractableResponse<Response> get(final String path, final Object... pathParams) {
+    public static ExtractableResponse<Response> getWithAccessToken(
+        final String path, final String accessToken, final Object... pathParams
+    ) {
         return RestAssured
             .given().log().all()
+            .auth().oauth2(accessToken)
             .when().get(path, pathParams)
             .then().log().all().extract();
     }
@@ -26,20 +29,36 @@ public class RequestUtil {
             .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> put(
-        final String path, final Object bodyParam, final Object... pathParams
+    public static ExtractableResponse<Response> postWithAccessToken(
+        final String path, final String accessToken, final Object bodyParam
     ) {
         return RestAssured
             .given().log().all()
+            .auth().oauth2(accessToken)
+            .body(bodyParam)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().post(path)
+            .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> putWithAccessToken(
+        final String path, final String accessToken, final Object bodyParam, final Object... pathParams
+    ) {
+        return RestAssured
+            .given().log().all()
+            .auth().oauth2(accessToken)
             .body(bodyParam)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when().put(path, pathParams)
             .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> delete(final String path, final Object... pathParams) {
+    public static ExtractableResponse<Response> deleteWithAccessToken(
+        final String path, final String accessToken, final Object... pathParams
+    ) {
         return RestAssured
             .given().log().all()
+            .auth().oauth2(accessToken)
             .when().delete(path, pathParams)
             .then().log().all().extract();
     }

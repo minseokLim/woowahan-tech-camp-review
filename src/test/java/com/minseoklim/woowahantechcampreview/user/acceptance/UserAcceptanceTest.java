@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 
 import com.minseoklim.woowahantechcampreview.AcceptanceTest;
+import com.minseoklim.woowahantechcampreview.auth.acceptance.AuthAcceptanceTest;
 import com.minseoklim.woowahantechcampreview.util.RequestUtil;
 
 import io.restassured.response.ExtractableResponse;
@@ -34,8 +35,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
         // then
         사용자_생성됨(createResponse);
 
+        // given
+        final String loginId = (String)user.get("loginId");
+        final String password = (String)user.get("password");
+        final var loginResponse = AuthAcceptanceTest.로그인_요청(loginId, password);
+        final String accessToken = (String)extractResponse(loginResponse, Map.class).get("accessToken");
+
         // when
-        final var listResponse = 사용자_목록_조회_요청();
+        final var listResponse = 사용자_목록_조회_요청(accessToken);
 
         // then
         사용자_목록_조회됨(listResponse);
@@ -45,7 +52,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         final var createdUserId = createdUser.get("id");
 
         // when
-        final var getResponse = 사용자_조회_요청(createdUserId);
+        final var getResponse = 사용자_조회_요청(createdUserId, accessToken);
 
         // then
         사용자_조회됨(getResponse, createdUser);
@@ -54,13 +61,13 @@ public class UserAcceptanceTest extends AcceptanceTest {
         final var newUser = readJsonFile(USER_FILE_PATH2, Map.class);
 
         // when
-        final var updateResponse = 사용자_수정_요청(createdUserId, newUser);
+        final var updateResponse = 사용자_수정_요청(createdUserId, newUser, accessToken);
 
         // then
         사용자_수정됨(updateResponse, newUser);
 
         // when
-        final var deleteResponse = 사용자_삭제_요청(createdUserId);
+        final var deleteResponse = 사용자_삭제_요청(createdUserId, accessToken);
 
         // then
         사용자_삭제됨(deleteResponse);
@@ -76,7 +83,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         사용자_생성_실패(response);
     }
 
-    private static ExtractableResponse<Response> 사용자_생성_요청(final Map<String, Object> user) {
+    public static ExtractableResponse<Response> 사용자_생성_요청(final Map<String, Object> user) {
         return RequestUtil.post("/users", user);
     }
 
@@ -85,16 +92,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(response.header("Location")).isNotNull();
     }
 
-    private static ExtractableResponse<Response> 사용자_목록_조회_요청() {
-        return RequestUtil.get("/users");
+    private static ExtractableResponse<Response> 사용자_목록_조회_요청(final String accessToken) {
+        return RequestUtil.getWithAccessToken("/users", accessToken);
     }
 
     private static void 사용자_목록_조회됨(final ExtractableResponse<Response> response) {
         assertHttpStatus(response, HttpStatus.OK);
     }
 
-    private static ExtractableResponse<Response> 사용자_조회_요청(final Object id) {
-        return RequestUtil.get("/users/{id}", id);
+    private static ExtractableResponse<Response> 사용자_조회_요청(final Object id, final String accessToken) {
+        return RequestUtil.getWithAccessToken("/users/{id}", accessToken, id);
     }
 
     private static void 사용자_조회됨(final ExtractableResponse<Response> response, final Map<String, Object> expectedUser) {
@@ -103,8 +110,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(user).isEqualTo(expectedUser);
     }
 
-    private static ExtractableResponse<Response> 사용자_수정_요청(final Object id, final Map<String, Object> newUser) {
-        return RequestUtil.put("/users/{id}", newUser, id);
+    private static ExtractableResponse<Response> 사용자_수정_요청(final Object id, final Map<String, Object> newUser,
+        final String accessToken) {
+        return RequestUtil.putWithAccessToken("/users/{id}", accessToken, newUser, id);
     }
 
     private static void 사용자_수정됨(final ExtractableResponse<Response> response, final Map<String, Object> expectedUser) {
@@ -115,8 +123,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(user.get("email")).isEqualTo(expectedUser.get("email"));
     }
 
-    private static ExtractableResponse<Response> 사용자_삭제_요청(final Object id) {
-        return RequestUtil.delete("/users/{id}", id);
+    private static ExtractableResponse<Response> 사용자_삭제_요청(final Object id, final String accessToken) {
+        return RequestUtil.deleteWithAccessToken("/users/{id}", accessToken, id);
     }
 
     private static void 사용자_삭제됨(final ExtractableResponse<Response> response) {
