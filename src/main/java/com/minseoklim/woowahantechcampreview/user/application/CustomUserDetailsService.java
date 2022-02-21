@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth.application;
+package com.minseoklim.woowahantechcampreview.user.application;
 
 import static org.springframework.security.core.userdetails.User.*;
 
@@ -33,12 +33,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails toUserDetails(final User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
+        final List<GrantedAuthority> authorities = user.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.name()))
             .collect(Collectors.toList());
 
         return builder()
-            .username(user.getLoginId())
+            .username(user.getId().toString())
             .password(user.getPassword())
             .authorities(authorities)
             .build();
