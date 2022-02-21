@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth;
+package com.minseoklim.woowahantechcampreview.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.minseoklim.woowahantechcampreview.auth.filter.JwtFilter;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -50,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) {
+    public void configure(final WebSecurity web) {
         web
             .ignoring()
             .antMatchers("/h2-console/**", "/favicon.ico");

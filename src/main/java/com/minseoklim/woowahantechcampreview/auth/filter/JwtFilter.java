@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth;
+package com.minseoklim.woowahantechcampreview.auth.filter;
 
 import java.io.IOException;
 
@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenProvider;
 
 @Component
 public class JwtFilter implements Filter {

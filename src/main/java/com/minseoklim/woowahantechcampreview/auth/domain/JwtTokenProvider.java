@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth;
+package com.minseoklim.woowahantechcampreview.auth.domain;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -74,9 +74,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(final String token) {
         try {
-            Claims claims = jwtParser.parseClaimsJws(token).getBody();
+            final Claims claims = jwtParser.parseClaimsJws(token).getBody();
             return !claims.getExpiration().before(new Date());
-        } catch (JwtException | IllegalArgumentException exception) {
+        } catch (final JwtException | IllegalArgumentException exception) {
             return false;
         }
     }

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.minseoklim.woowahantechcampreview.auth.AuthenticatedUsername;
-import com.minseoklim.woowahantechcampreview.auth.CheckAdminPermission;
+import com.minseoklim.woowahantechcampreview.auth.config.annotation.AuthenticatedUsername;
+import com.minseoklim.woowahantechcampreview.auth.config.annotation.CheckAdminPermission;
 import com.minseoklim.woowahantechcampreview.user.application.UserService;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;

@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth;
+package com.minseoklim.woowahantechcampreview.auth.config;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +8,8 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import com.minseoklim.woowahantechcampreview.auth.config.annotation.AuthenticatedUsername;
 
 @Component
 public class AuthenticatedUsernameArgumentResolver implements HandlerMethodArgumentResolver {
