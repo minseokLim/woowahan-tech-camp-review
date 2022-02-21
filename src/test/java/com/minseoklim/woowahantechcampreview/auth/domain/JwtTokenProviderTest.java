@@ -17,7 +17,7 @@ class JwtTokenProviderTest {
     @Test
     void createToken() {
         // given
-        final var authorities = List.of(ROLE_ADMIN.toGrantedAuthority(), ROLE_USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
 
         // when
@@ -30,7 +30,7 @@ class JwtTokenProviderTest {
     @Test
     void extractAuthentication() {
         // given
-        final var authorities = List.of(ROLE_ADMIN.toGrantedAuthority(), ROLE_USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
         final var token = TOKEN_PROVIDER.createToken(authentication);
 
@@ -44,7 +44,7 @@ class JwtTokenProviderTest {
     @Test
     void validateToken() {
         // given
-        final var authorities = List.of(ROLE_ADMIN.toGrantedAuthority(), ROLE_USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
         final var token = TOKEN_PROVIDER.createToken(authentication);
 

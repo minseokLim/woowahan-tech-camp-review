@@ -21,4 +21,8 @@ public class Roles {
     void addRole(final Role role) {
         roles.add(role);
     }
+
+    void deleteRole(final Role role) {
+        roles.remove(role);
+    }
 }

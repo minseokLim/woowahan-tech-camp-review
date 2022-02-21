@@ -45,18 +45,6 @@ class UserTest {
     }
 
     @Test
-    void addRole() {
-        // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
-
-        // when
-        user.addRole(Role.ROLE_ADMIN);
-
-        // then
-        assertThat(user.getRoles()).contains(Role.ROLE_ADMIN);
-    }
-
-    @Test
     void delete() {
         // given
         final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
@@ -66,5 +54,30 @@ class UserTest {
 
         // then
         assertThat(user.isDeleted()).isTrue();
+    }
+
+    @Test
+    void addRole() {
+        // given
+        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+
+        // when
+        user.addRole(Role.ADMIN);
+
+        // then
+        assertThat(user.getRoles()).contains(Role.ADMIN);
+    }
+
+    @Test
+    void deleteRole() {
+        // given
+        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        user.addRole(Role.ADMIN);
+
+        // when
+        user.deleteRole(Role.ADMIN);
+
+        // then
+        assertThat(user.getRoles()).doesNotContain(Role.ADMIN);
     }
 }

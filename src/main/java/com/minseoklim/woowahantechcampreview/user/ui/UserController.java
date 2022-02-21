@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.minseoklim.woowahantechcampreview.auth.config.annotation.AuthenticatedUsername;
 import com.minseoklim.woowahantechcampreview.auth.config.annotation.CheckAdminPermission;
+import com.minseoklim.woowahantechcampreview.auth.dto.RoleRequest;
 import com.minseoklim.woowahantechcampreview.user.application.UserService;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
@@ -87,6 +89,25 @@ public class UserController {
     @DeleteMapping("/me")
     public ResponseEntity<Void> deleteMine(@AuthenticatedUsername final Long id) {
         userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/roles")
+    @CheckAdminPermission
+    public ResponseEntity<UserResponse> addRole(
+        @PathVariable final Long id,
+        @Valid @RequestBody final RoleRequest roleRequest) {
+        final UserResponse user = userService.addRole(id, roleRequest);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/{id}/roles")
+    @CheckAdminPermission
+    public ResponseEntity<Void> deleteRole(
+        @PathVariable final Long id,
+        @Valid @RequestBody final RoleRequest roleRequest
+    ) {
+        userService.deleteRole(id, roleRequest);
         return ResponseEntity.noContent().build();
     }
 }

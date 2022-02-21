@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.minseoklim.woowahantechcampreview.auth.dto.RoleRequest;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
@@ -49,6 +50,17 @@ public class UserService {
     public void delete(final Long id) {
         final User user = getUserById(id);
         user.delete();
+    }
+
+    public UserResponse addRole(final Long id, final RoleRequest roleRequest) {
+        final User user = getUserById(id);
+        user.addRole(roleRequest.toRole());
+        return UserResponse.of(user);
+    }
+
+    public void deleteRole(final Long id, final RoleRequest roleRequest) {
+        final User user = getUserById(id);
+        user.deleteRole(roleRequest.toRole());
     }
 
     private User getUserById(final Long id) {

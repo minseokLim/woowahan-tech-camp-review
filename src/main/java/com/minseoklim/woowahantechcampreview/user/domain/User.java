@@ -47,7 +47,7 @@ public class User extends BaseEntity {
         this.nickName = nickName;
         this.email = email;
 
-        addRole(Role.ROLE_USER);
+        addRole(Role.USER);
     }
 
     public void update(final User other) {
@@ -59,12 +59,16 @@ public class User extends BaseEntity {
         this.email = other.getEmail();
     }
 
+    public void delete() {
+        this.deleted = true;
+    }
+
     public void addRole(final Role role) {
         roles.addRole(role);
     }
 
-    public void delete() {
-        this.deleted = true;
+    public void deleteRole(final Role role) {
+        roles.deleteRole(role);
     }
 
     public List<Role> getRoles() {
