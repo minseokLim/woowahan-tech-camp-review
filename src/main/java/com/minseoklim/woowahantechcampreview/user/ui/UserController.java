@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.minseoklim.woowahantechcampreview.auth.AuthenticatedUsername;
+import com.minseoklim.woowahantechcampreview.auth.CheckAdminPermission;
 import com.minseoklim.woowahantechcampreview.user.application.UserService;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
@@ -37,18 +39,27 @@ public class UserController {
     }
 
     @GetMapping
+    @CheckAdminPermission
     public ResponseEntity<Page<UserResponse>> list(final Pageable pageable) {
         final Page<UserResponse> users = userService.list(pageable);
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
+    @CheckAdminPermission
     public ResponseEntity<UserResponse> get(@PathVariable final Long id) {
         final UserResponse user = userService.get(id);
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getMine(@AuthenticatedUsername final Long id) {
+        final UserResponse user = userService.get(id);
+        return ResponseEntity.ok(user);
+    }
+
     @PutMapping("/{id}")
+    @CheckAdminPermission
     public ResponseEntity<UserResponse> update(
         @PathVariable final Long id,
         @Valid @RequestBody final UserRequest userRequest
@@ -57,8 +68,24 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateMine(
+        @AuthenticatedUsername final Long id,
+        @Valid @RequestBody final UserRequest userRequest
+    ) {
+        final UserResponse user = userService.update(id, userRequest);
+        return ResponseEntity.ok(user);
+    }
+
     @DeleteMapping("/{id}")
+    @CheckAdminPermission
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMine(@AuthenticatedUsername final Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
