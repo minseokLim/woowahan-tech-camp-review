@@ -14,14 +14,23 @@ public class UserResponse {
 
     private final String email;
 
-    private UserResponse(final Long id, final String loginId, final String nickName, final String email) {
+    private final boolean deleted;
+
+    private UserResponse(
+        final Long id,
+        final String loginId,
+        final String nickName,
+        final String email,
+        final boolean deleted
+    ) {
         this.id = id;
         this.loginId = loginId;
         this.nickName = nickName;
         this.email = email;
+        this.deleted = deleted;
     }
 
     public static UserResponse of(final User user) {
-        return new UserResponse(user.getId(), user.getLoginId(), user.getNickName(), user.getEmail());
+        return new UserResponse(user.getId(), user.getLoginId(), user.getNickName(), user.getEmail(), user.isDeleted());
     }
 }

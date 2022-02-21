@@ -55,4 +55,16 @@ class UserTest {
         // then
         assertThat(user.getRoles()).contains(Role.ROLE_ADMIN);
     }
+
+    @Test
+    void delete() {
+        // given
+        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+
+        // when
+        user.delete();
+
+        // then
+        assertThat(user.isDeleted()).isTrue();
+    }
 }

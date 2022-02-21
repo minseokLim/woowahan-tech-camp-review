@@ -39,6 +39,8 @@ public class User extends BaseEntity {
     @Embedded
     private Roles roles = new Roles();
 
+    private boolean deleted = false;
+
     public User(final String loginId, final String password, final String nickName, final String email) {
         this.loginId = loginId;
         this.password = password;
@@ -59,6 +61,10 @@ public class User extends BaseEntity {
 
     public void addRole(final Role role) {
         roles.addRole(role);
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 
     public List<Role> getRoles() {
