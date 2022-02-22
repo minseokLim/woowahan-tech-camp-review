@@ -28,6 +28,6 @@ public class AuthenticatedUsernameArgumentResolver implements HandlerMethodArgum
         final UserDetails principal = (UserDetails)SecurityContextHolder.getContext()
             .getAuthentication()
             .getPrincipal();
-        return principal.getUsername();
+        return Long.parseLong(principal.getUsername());
     }
 }
