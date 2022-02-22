@@ -1,5 +1,7 @@
 package com.minseoklim.woowahantechcampreview.util;
 
+import java.util.Map;
+
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
@@ -20,7 +22,7 @@ public class RequestUtil {
             .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> post(final String path, final Object bodyParam) {
+    public static ExtractableResponse<Response> post(final String path, final Map<String, Object> bodyParam) {
         return RestAssured
             .given().log().all()
             .body(bodyParam)
@@ -30,7 +32,7 @@ public class RequestUtil {
     }
 
     public static ExtractableResponse<Response> postWithAccessToken(
-        final String path, final String accessToken, final Object bodyParam
+        final String path, final String accessToken, final Map<String, Object> bodyParam
     ) {
         return RestAssured
             .given().log().all()
@@ -42,7 +44,7 @@ public class RequestUtil {
     }
 
     public static ExtractableResponse<Response> putWithAccessToken(
-        final String path, final String accessToken, final Object bodyParam, final Object... pathParams
+        final String path, final String accessToken, final Map<String, Object> bodyParam, final Object... pathParams
     ) {
         return RestAssured
             .given().log().all()
@@ -53,12 +55,36 @@ public class RequestUtil {
             .then().log().all().extract();
     }
 
+    public static ExtractableResponse<Response> patchWithAccessToken(
+        final String path, final String accessToken, final Map<String, Object> bodyParam, final Object... pathParams
+    ) {
+        return RestAssured
+            .given().log().all()
+            .auth().oauth2(accessToken)
+            .body(bodyParam)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().patch(path, pathParams)
+            .then().log().all().extract();
+    }
+
     public static ExtractableResponse<Response> deleteWithAccessToken(
         final String path, final String accessToken, final Object... pathParams
     ) {
         return RestAssured
             .given().log().all()
             .auth().oauth2(accessToken)
+            .when().delete(path, pathParams)
+            .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> deleteWithAccessToken(
+        final String path, final String accessToken, final Map<String, Object> bodyParam, final Object... pathParams
+    ) {
+        return RestAssured
+            .given().log().all()
+            .auth().oauth2(accessToken)
+            .body(bodyParam)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when().delete(path, pathParams)
             .then().log().all().extract();
     }

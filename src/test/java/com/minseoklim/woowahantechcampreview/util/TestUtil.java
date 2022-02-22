@@ -15,6 +15,10 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 public class TestUtil {
+    public static final String ADMIN_TOKEN =
+        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2lwYWwiLCJhdXRoIjoiUk9MRV9BRE1JTixST0xFX1VTRVIiLCJpYXQiOjE2NDU0OTY1MzAsI"
+            + "mV4cCI6NDYxMTY4NzY2MzkyMzkxOH0.GeK1OPaTVHm2RP-VrDV-Nfbk3ytwN5JFJ-Rudt48Cdwoq-8sm_0fDrrxMNTZpE7oO_5KzJW8G"
+            + "E7Y_BctGK0JOA";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private TestUtil() {

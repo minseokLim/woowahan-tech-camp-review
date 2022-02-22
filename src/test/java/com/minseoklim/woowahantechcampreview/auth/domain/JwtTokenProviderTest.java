@@ -12,7 +12,7 @@ import org.springframework.util.Base64Utils;
 class JwtTokenProviderTest {
     private static final String SECRET_KEY =
         Base64Utils.encodeToString("TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest".getBytes());
-    private static final JwtTokenProvider TOKEN_PROVIDER = new JwtTokenProvider(SECRET_KEY, 3600000);
+    private static final JwtTokenProvider TOKEN_PROVIDER = new JwtTokenProvider(SECRET_KEY, Long.MAX_VALUE / 2);
 
     @Test
     void createToken() {

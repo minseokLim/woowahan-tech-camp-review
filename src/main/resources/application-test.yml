@@ -1,0 +1,3 @@
+jwt:
+  secret-key: 'VGVzdFRlc3RUZXN0VGVzdFRlc3RUZXN0VGVzdFRlc3RUZXN0VGVzdFRlc3RUZXN0VGVzdFRlc3RUZXN0VGVzdFRlc3Q='
+  expire-length: 3600000
