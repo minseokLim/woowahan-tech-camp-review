@@ -5,9 +5,9 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.minseoklim.woowahantechcampreview.user.domain.User;
-
 import lombok.Getter;
+
+import com.minseoklim.woowahantechcampreview.user.domain.User;
 
 @Getter
 public class UserRequest {

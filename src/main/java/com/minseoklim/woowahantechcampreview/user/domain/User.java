@@ -9,12 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.minseoklim.woowahantechcampreview.common.BaseEntity;
-import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.minseoklim.woowahantechcampreview.common.BaseEntity;
+import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 @Entity
 @Getter

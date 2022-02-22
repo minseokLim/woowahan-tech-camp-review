@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j

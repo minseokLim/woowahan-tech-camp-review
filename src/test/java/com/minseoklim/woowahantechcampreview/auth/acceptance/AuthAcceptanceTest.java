@@ -9,12 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+
 import com.minseoklim.woowahantechcampreview.AcceptanceTest;
 import com.minseoklim.woowahantechcampreview.user.acceptance.UserAcceptanceTest;
 import com.minseoklim.woowahantechcampreview.util.RequestUtil;
-
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 
 @SuppressWarnings("unchecked")
 public class AuthAcceptanceTest extends AcceptanceTest {

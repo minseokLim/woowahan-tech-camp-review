@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.minseoklim.woowahantechcampreview.util.DatabaseCleanup;
-
 import io.restassured.RestAssured;
+
+import com.minseoklim.woowahantechcampreview.util.DatabaseCleanup;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")

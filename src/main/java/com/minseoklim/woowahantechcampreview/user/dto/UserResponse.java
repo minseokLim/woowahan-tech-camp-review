@@ -2,10 +2,10 @@ package com.minseoklim.woowahantechcampreview.user.dto;
 
 import java.util.List;
 
+import lombok.Getter;
+
 import com.minseoklim.woowahantechcampreview.user.domain.Role;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
-
-import lombok.Getter;
 
 @Getter
 public class UserResponse {

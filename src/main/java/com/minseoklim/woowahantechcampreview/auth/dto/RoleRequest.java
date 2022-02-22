@@ -2,9 +2,9 @@ package com.minseoklim.woowahantechcampreview.auth.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import com.minseoklim.woowahantechcampreview.user.domain.Role;
-
 import lombok.Getter;
+
+import com.minseoklim.woowahantechcampreview.user.domain.Role;
 
 @Getter
 public class RoleRequest {
