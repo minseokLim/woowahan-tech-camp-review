@@ -15,16 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenProvider;
+import com.minseoklim.woowahantechcampreview.auth.util.JwtTokenParser;
 
 @Component
 public class JwtFilter implements Filter {
     private static final String BEARER_TYPE = "Bearer";
 
-    private final JwtTokenProvider tokenProvider;
+    private final JwtTokenParser tokenParser;
 
-    public JwtFilter(final JwtTokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
+    public JwtFilter(final JwtTokenParser tokenParser) {
+        this.tokenParser = tokenParser;
     }
 
     @Override
@@ -34,22 +34,22 @@ public class JwtFilter implements Filter {
         final FilterChain chain
     ) throws ServletException, IOException {
         final HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-        final String token = resolveToken(httpServletRequest);
+        final String token = resolveAccessToken(httpServletRequest);
 
-        if (tokenProvider.validateToken(token)) {
-            final Authentication authentication = tokenProvider.extractAuthentication(token);
+        if (tokenParser.validateAccessToken(token)) {
+            final Authentication authentication = tokenParser.extractAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);
     }
 
-    private String resolveToken(final HttpServletRequest request) {
+    private String resolveAccessToken(final HttpServletRequest request) {
         final String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
             return bearerToken.substring(BEARER_TYPE.length()).trim();
         }
-        return null;
+        return "";
     }
 }

@@ -1,6 +1,7 @@
 package com.minseoklim.woowahantechcampreview.auth.acceptance;
 
 import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,12 +35,22 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 로그인() {
+    void 인증() {
         // when
-        final var response = 로그인_요청(loginId, password);
+        final var loginResponse = 로그인_요청(loginId, password);
 
         // then
-        로그인됨(response);
+        로그인됨(loginResponse);
+
+        // given
+        final var accessToken = (String)loginResponse.jsonPath().get("accessToken");
+        final var refreshToken = (String)loginResponse.jsonPath().get("refreshToken");
+
+        // when
+        final var tokenResponse = 토큰_재발급_요청(accessToken, refreshToken);
+
+        // then
+        토큰_재발급됨(tokenResponse);
     }
 
     @Test
@@ -70,6 +81,20 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     private static void 로그인됨(final ExtractableResponse<Response> response) {
         assertHttpStatus(response, HttpStatus.OK);
+    }
+
+    private static ExtractableResponse<Response> 토큰_재발급_요청(final String accessToken, final String refreshToken) {
+        final Map<String, Object> bodyParam = Map.of("accessToken", accessToken, "refreshToken", refreshToken);
+        return RequestUtil.post("/refresh-token", bodyParam);
+    }
+
+    private static void 토큰_재발급됨(final ExtractableResponse<Response> response) {
+        assertHttpStatus(response, HttpStatus.OK);
+
+        final var newAccessToken = response.jsonPath().get("accessToken");
+        final var newRefreshToken = response.jsonPath().get("refreshToken");
+        assertThat(newAccessToken).isNotNull();
+        assertThat(newRefreshToken).isNotNull();
     }
 
     private static void 로그인_실패(final ExtractableResponse<Response> response) {

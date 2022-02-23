@@ -36,7 +36,7 @@ public class TestUtil {
         try {
             final var content = readFile(filePath);
             return OBJECT_MAPPER.readValue(content, clazz);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
