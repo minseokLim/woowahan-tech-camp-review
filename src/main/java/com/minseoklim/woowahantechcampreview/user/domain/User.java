@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.common.BaseEntity;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 

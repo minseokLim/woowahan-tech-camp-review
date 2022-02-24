@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.minseoklim.woowahantechcampreview.user.domain.Role;
+import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
 

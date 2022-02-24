@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 
 import lombok.Getter;
 
+import com.minseoklim.woowahantechcampreview.auth.domain.Role;
+
 @Embeddable
 @Getter
 public class Roles {

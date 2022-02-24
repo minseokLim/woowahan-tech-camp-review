@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-import com.minseoklim.woowahantechcampreview.user.domain.Role;
+import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 
 @Getter

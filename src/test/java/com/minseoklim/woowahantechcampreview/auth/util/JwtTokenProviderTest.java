@@ -1,6 +1,6 @@
 package com.minseoklim.woowahantechcampreview.auth.util;
 
-import static com.minseoklim.woowahantechcampreview.user.domain.Role.*;
+import static com.minseoklim.woowahantechcampreview.auth.domain.Role.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
