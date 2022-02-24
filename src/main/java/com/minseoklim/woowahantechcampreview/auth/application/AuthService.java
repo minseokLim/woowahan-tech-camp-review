@@ -69,6 +69,10 @@ public class AuthService {
         return tokenResponse;
     }
 
+    public void invalidateRefreshToken(final Long userId) {
+        invalidateRefreshToken(userId.toString());
+    }
+
     private TokenResponse createTokenResponse(final Authentication authentication) {
         final String accessToken = tokenProvider.createAccessToken(authentication);
         final String refreshToken = tokenProvider.createRefreshToken();

@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.minseoklim.woowahantechcampreview.auth.application.AuthService;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
@@ -18,10 +19,16 @@ import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
+    public UserService(
+        final UserRepository userRepository,
+        final PasswordEncoder passwordEncoder,
+        final AuthService authService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
 
     public UserResponse create(final UserRequest userRequest) {
@@ -50,17 +57,24 @@ public class UserService {
     public void delete(final Long id) {
         final User user = getUserById(id);
         user.delete();
+
+        authService.invalidateRefreshToken(id);
     }
 
     public UserResponse addRole(final Long id, final RoleRequest roleRequest) {
         final User user = getUserById(id);
         user.addRole(roleRequest.toRole());
+
+        authService.invalidateRefreshToken(id);
+
         return UserResponse.of(user);
     }
 
     public void deleteRole(final Long id, final RoleRequest roleRequest) {
         final User user = getUserById(id);
         user.deleteRole(roleRequest.toRole());
+
+        authService.invalidateRefreshToken(id);
     }
 
     private User getUserById(final Long id) {
