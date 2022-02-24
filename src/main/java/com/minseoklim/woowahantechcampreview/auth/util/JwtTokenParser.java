@@ -13,7 +13,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,8 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+
+import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 
 @Component
 public class JwtTokenParser {
@@ -38,7 +39,7 @@ public class JwtTokenParser {
             final Claims claims = jwtParser.parseClaimsJws(accessToken).getBody();
             final Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(AUTHORITY_DELIMITER))
-                    .map(SimpleGrantedAuthority::new)
+                    .map(Role::of)
                     .collect(Collectors.toList());
             final UserDetails principal = User.builder()
                 .username(claims.getSubject())

@@ -18,7 +18,7 @@ class JwtTokenProviderTest {
     @Test
     void createAccessToken() {
         // given
-        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN, USER);
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
 
         // when, then

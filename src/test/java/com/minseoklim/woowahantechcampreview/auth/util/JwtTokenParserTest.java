@@ -19,7 +19,7 @@ class JwtTokenParserTest {
     @Test
     void extractAuthentication() {
         // given
-        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN, USER);
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
         final var token = TOKEN_PROVIDER.createAccessToken(authentication);
 
@@ -33,7 +33,7 @@ class JwtTokenParserTest {
     @Test
     void validateAccessToken() {
         // given
-        final var authorities = List.of(ADMIN.toGrantedAuthority(), USER.toGrantedAuthority());
+        final var authorities = List.of(ADMIN, USER);
         final var authentication = new UsernamePasswordAuthenticationToken("principal", "credentials", authorities);
         final var token = TOKEN_PROVIDER.createAccessToken(authentication);
 
