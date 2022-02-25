@@ -15,6 +15,20 @@ spring:
   h2:
     console:
       enabled: true
+  mail:
+    host: email-smtp.ap-northeast-2.amazonaws.com
+    username: ${mailUsername}
+    password: ${mailPassword}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 25
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 logging:
   level:
