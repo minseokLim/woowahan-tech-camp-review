@@ -29,7 +29,7 @@ import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 public class JwtTokenParser {
     private final JwtParser jwtParser;
 
-    public JwtTokenParser(@Value("${jwt.secret-key}") final String secretKey) {
+    public JwtTokenParser(@Value("${custom.jwt.secret-key}") final String secretKey) {
         final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
     }

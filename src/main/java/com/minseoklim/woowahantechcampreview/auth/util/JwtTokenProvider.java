@@ -24,9 +24,9 @@ public class JwtTokenProvider {
     private final long refreshTokenValidityInMilliseconds;
 
     public JwtTokenProvider(
-        @Value("${jwt.secret-key}") final String secretKey,
-        @Value("${jwt.access-token-validity-in-milliseconds}") final long accessTokenValidityInMilliseconds,
-        @Value("${jwt.refresh-token-validity-in-milliseconds}") final long refreshTokenValidityInMilliseconds
+        @Value("${custom.jwt.secret-key}") final String secretKey,
+        @Value("${custom.jwt.access-token-validity-in-milliseconds}") final long accessTokenValidityInMilliseconds,
+        @Value("${custom.jwt.refresh-token-validity-in-milliseconds}") final long refreshTokenValidityInMilliseconds
     ) {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds;

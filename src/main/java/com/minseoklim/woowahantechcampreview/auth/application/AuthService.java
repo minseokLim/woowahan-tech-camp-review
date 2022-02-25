@@ -24,7 +24,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenValidator refreshTokenValidator;
 
-    @Value("${jwt.refresh-token-validity-in-milliseconds}")
+    @Value("${custom.jwt.refresh-token-validity-in-milliseconds}")
     private long refreshTokenValidityInMilliseconds;
 
     public AuthService(
