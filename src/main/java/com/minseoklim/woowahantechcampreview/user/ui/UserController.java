@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minseoklim.woowahantechcampreview.auth.config.annotation.AuthenticatedUsername;
+import com.minseoklim.woowahantechcampreview.user.application.ResetPasswordService;
 import com.minseoklim.woowahantechcampreview.user.application.UserService;
+import com.minseoklim.woowahantechcampreview.user.dto.ResetPasswordEmailRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 
@@ -22,9 +24,11 @@ import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final ResetPasswordService resetPasswordService;
 
-    public UserController(final UserService userService) {
+    public UserController(final UserService userService, final ResetPasswordService resetPasswordService) {
         this.userService = userService;
+        this.resetPasswordService = resetPasswordService;
     }
 
     @PostMapping
@@ -53,5 +57,13 @@ public class UserController {
     public ResponseEntity<Void> deleteMine(@AuthenticatedUsername final Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/send-email-to-reset-password")
+    public ResponseEntity<Void> sendEmailToResetPassword(
+        @Valid @RequestBody final ResetPasswordEmailRequest emailRequest
+    ) {
+        resetPasswordService.sendEmailToResetPassword(emailRequest);
+        return ResponseEntity.ok().build();
     }
 }

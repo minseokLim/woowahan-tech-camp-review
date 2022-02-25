@@ -4,6 +4,7 @@ import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
 import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +118,21 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         // then
         내정보_삭제됨(deleteResponse);
+    }
+
+    @Test
+    void 비밀번호_재설정() {
+        // given
+        final var user = readJsonFile(USER_FILE_PATH1, Map.class);
+        사용자_생성_요청(user);
+        final String loginId = (String)user.get("loginId");
+        final String email = (String)user.get("email");
+
+        // when
+        final var mailResponse = 비밀번호_재설정_이메일_전송_요청(loginId, email);
+
+        // then
+        비밀번호_재설정_이메일_전송됨(mailResponse);
     }
 
     @ParameterizedTest
@@ -233,6 +249,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     private static void 사용자_생성_실패(final ExtractableResponse<Response> response) {
         assertHttpStatus(response, HttpStatus.BAD_REQUEST);
+    }
+
+    private static ExtractableResponse<Response> 비밀번호_재설정_이메일_전송_요청(final String loginId, final String email) {
+        final Map<String, Object> param = new HashMap<>();
+        param.put("loginId", loginId);
+        param.put("email", email);
+        param.put("uriToResetPassword", "https://minseoklim.com/reset-password");
+
+        return RequestUtil.post("/users/send-email-to-reset-password", param);
+    }
+
+    private static void 비밀번호_재설정_이메일_전송됨(final ExtractableResponse<Response> response) {
+        assertHttpStatus(response, HttpStatus.OK);
     }
 
     private static List<Map<String, Object>> provideInvalidUsers() {

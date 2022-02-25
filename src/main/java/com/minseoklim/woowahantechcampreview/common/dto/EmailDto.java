@@ -78,4 +78,17 @@ public class EmailDto {
             messageHelper.addAttachment(attachedFileName, attachedFile);
         }
     }
+
+    @Override
+    public String toString() {
+        return "EmailDto{" +
+            "fromAddress='" + fromAddress + '\'' +
+            ", toAddress='" + toAddress + '\'' +
+            ", subject='" + subject + '\'' +
+            ", text='" + text + '\'' +
+            ", html=" + html +
+            ", attachedFileName='" + attachedFileName + '\'' +
+            ", attachedFile=" + attachedFile +
+            '}';
+    }
 }

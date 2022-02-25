@@ -44,8 +44,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/login", "/refresh-token", "/users").permitAll()
-            .anyRequest().authenticated()
+            .antMatchers(HttpMethod.POST, "/login", "/refresh-token")
+            .permitAll()
+            .antMatchers(HttpMethod.POST, "/users")
+            .permitAll()
+            .antMatchers(HttpMethod.POST, "/users/send-email-to-reset-password", "/users/check-reset-password-token")
+            .permitAll()
+            .antMatchers(HttpMethod.PATCH, "/users/password")
+            .permitAll()
+            .anyRequest()
+            .authenticated()
 
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
