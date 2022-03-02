@@ -1,5 +1,6 @@
 package com.minseoklim.woowahantechcampreview.user.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -73,6 +74,6 @@ public class User extends BaseEntity {
     }
 
     public List<Role> getRoles() {
-        return roles.getRoles();
+        return Collections.unmodifiableList(roles.getRoles());
     }
 }
