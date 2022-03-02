@@ -73,6 +73,10 @@ public class User extends BaseEntity {
         roles.deleteRole(role);
     }
 
+    public void changePassword(final String password) {
+        this.password = password;
+    }
+
     public List<Role> getRoles() {
         return Collections.unmodifiableList(roles.getRoles());
     }

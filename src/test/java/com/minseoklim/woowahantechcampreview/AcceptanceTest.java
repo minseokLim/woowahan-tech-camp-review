@@ -20,7 +20,7 @@ public class AcceptanceTest {
     private DatabaseCleanup databaseCleanup;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         RestAssured.port = port;
         databaseCleanup.execute();
     }

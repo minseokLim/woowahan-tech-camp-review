@@ -3,10 +3,11 @@ package com.minseoklim.woowahantechcampreview.util;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,7 @@ public class TestUtil {
             + "mV4cCI6NDYxMTY4NzY2MzkyMzkxOH0.GeK1OPaTVHm2RP-VrDV-Nfbk3ytwN5JFJ-Rudt48Cdwoq-8sm_0fDrrxMNTZpE7oO_5KzJW8G"
             + "E7Y_BctGK0JOA";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final String CLASS_PATH = "src/test/resources/";
 
     private TestUtil() {
     }
@@ -32,23 +34,21 @@ public class TestUtil {
         return response.as(clazz);
     }
 
-    public static <T> T readJsonFile(final String filePath, final Class<T> clazz) {
-        try {
-            final var content = readFile(filePath);
-            return OBJECT_MAPPER.readValue(content, clazz);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+    public static void writeFile(final String filePath, final String text) throws IOException {
+        try (final var writer = new BufferedWriter(new FileWriter(CLASS_PATH + filePath))) {
+            writer.write(text);
         }
     }
 
-    private static String readFile(final String filePath) throws IOException {
-        final var br = getBufferedReader(filePath);
-        return readAllLines(br);
+    public static <T> T readJsonFile(final String filePath, final Class<T> clazz) throws IOException {
+        final var content = readFile(filePath);
+        return OBJECT_MAPPER.readValue(content, clazz);
     }
 
-    private static BufferedReader getBufferedReader(final String filePath) throws IOException {
-        final var in = new ClassPathResource(filePath).getInputStream();
-        return new BufferedReader(new InputStreamReader(in));
+    public static String readFile(final String filePath) throws IOException {
+        try (final var br = new BufferedReader(new FileReader(CLASS_PATH + filePath))) {
+            return readAllLines(br);
+        }
     }
 
     private static String readAllLines(final BufferedReader br) throws IOException {

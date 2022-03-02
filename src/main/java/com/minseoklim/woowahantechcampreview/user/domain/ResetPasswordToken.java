@@ -9,7 +9,10 @@ import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.Getter;
+
 @RedisHash("resetPasswordToken")
+@Getter
 public class ResetPasswordToken {
     static final String QUERY_PARAM_NAME = "token";
 
@@ -27,7 +30,8 @@ public class ResetPasswordToken {
         this.timeout = timeout;
     }
 
-    private String generateRandomToken() {
+    // TODO: 테스트가 어려운 코드. 밖으로 빼야하나?
+    private static String generateRandomToken() {
         final byte[] randomBytes = UUID.randomUUID().toString().getBytes();
         return Base64Utils.encodeToString(randomBytes);
     }

@@ -4,9 +4,12 @@ import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
 import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +30,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     public static final String INVALID_USERS_FILE_PATH = "json/user/invalidUsers.json";
 
     @Test
-    void 사용자_관리() {
+    void 사용자_관리() throws IOException {
         // given
         final var user = readJsonFile(USER_FILE_PATH1, Map.class);
 
@@ -82,7 +85,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 내정보_관리() {
+    void 내정보_관리() throws IOException {
         // given
         final var user = readJsonFile(USER_FILE_PATH1, Map.class);
 
@@ -121,7 +124,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 비밀번호_재설정() {
+    void 비밀번호_재설정() throws IOException {
         // given
         final var user = readJsonFile(USER_FILE_PATH1, Map.class);
         사용자_생성_요청(user);
@@ -133,6 +136,21 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         // then
         비밀번호_재설정_이메일_전송됨(mailResponse);
+
+        // given
+        final var token = 토큰_추출("sentEmailText.txt");
+
+        // when
+        final var checkResponse = 토큰_유효성_검사(token);
+
+        // then
+        토큰_유효함(checkResponse);
+
+        // when
+        final var changePasswordResponse = 비밀번호_재설정_요청(token, "newPassword111");
+
+        // then
+        비밀번호_재설정됨(changePasswordResponse);
     }
 
     @ParameterizedTest
@@ -264,7 +282,38 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertHttpStatus(response, HttpStatus.OK);
     }
 
-    private static List<Map<String, Object>> provideInvalidUsers() {
+    private static String 토큰_추출(final String filePath) throws IOException {
+        final String emailText = readFile(filePath);
+        final Matcher tokenMatcher = Pattern.compile("token=([A-Za-z0-9+/]+)\\s*").matcher(emailText);
+
+        if (tokenMatcher.find()) {
+            return tokenMatcher.group(1);
+        }
+
+        throw new IllegalArgumentException("파일 내에 토큰이 없습니다.");
+    }
+
+    private static ExtractableResponse<Response> 토큰_유효성_검사(final String token) {
+        return RequestUtil.get("/users/check-reset-password-token", singletonMap("token", token));
+    }
+
+    private static void 토큰_유효함(final ExtractableResponse<Response> response) {
+        assertHttpStatus(response, HttpStatus.OK);
+    }
+
+    private static ExtractableResponse<Response> 비밀번호_재설정_요청(final String token, final String password) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("password", password);
+
+        return RequestUtil.patch("/users/password", params);
+    }
+
+    private static void 비밀번호_재설정됨(final ExtractableResponse<Response> response) {
+        assertHttpStatus(response, HttpStatus.OK);
+    }
+
+    private static List<Map<String, Object>> provideInvalidUsers() throws IOException {
         return readJsonFile(INVALID_USERS_FILE_PATH, List.class);
     }
 

@@ -81,4 +81,16 @@ class UserTest {
         // then
         assertThat(user.getRoles()).doesNotContain(Role.ADMIN);
     }
+
+    @Test
+    void changePassword() {
+        // given
+        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+
+        // when
+        user.changePassword("newPassword111");
+
+        // then
+        assertThat(user.getPassword()).isEqualTo("newPassword111");
+    }
 }

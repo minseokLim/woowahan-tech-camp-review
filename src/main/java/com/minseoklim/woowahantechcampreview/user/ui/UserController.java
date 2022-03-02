@@ -7,16 +7,19 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minseoklim.woowahantechcampreview.auth.config.annotation.AuthenticatedUsername;
 import com.minseoklim.woowahantechcampreview.user.application.ResetPasswordService;
 import com.minseoklim.woowahantechcampreview.user.application.UserService;
 import com.minseoklim.woowahantechcampreview.user.dto.ResetPasswordEmailRequest;
+import com.minseoklim.woowahantechcampreview.user.dto.ResetPasswordRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 
@@ -64,6 +67,18 @@ public class UserController {
         @Valid @RequestBody final ResetPasswordEmailRequest emailRequest
     ) {
         resetPasswordService.sendEmailToResetPassword(emailRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/check-reset-password-token")
+    public ResponseEntity<Void> checkResetPasswordToken(@RequestParam final String token) {
+        resetPasswordService.getResetPasswordToken(token);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> resetPassword(@Valid @RequestBody final ResetPasswordRequest resetPasswordRequest) {
+        resetPasswordService.resetPassword(resetPasswordRequest);
         return ResponseEntity.ok().build();
     }
 }

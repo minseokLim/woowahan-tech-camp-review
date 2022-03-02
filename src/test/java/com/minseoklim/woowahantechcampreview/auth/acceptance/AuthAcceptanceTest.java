@@ -24,7 +24,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @Override
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
 
         // given

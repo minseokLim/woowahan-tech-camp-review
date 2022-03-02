@@ -12,6 +12,16 @@ public class RequestUtil {
     private RequestUtil() {
     }
 
+    public static ExtractableResponse<Response> get(
+        final String path, final Map<String, Object> queryParams, final Object... pathParams
+    ) {
+        return RestAssured
+            .given().log().all()
+            .queryParams(queryParams)
+            .when().get(path, pathParams)
+            .then().log().all().extract();
+    }
+
     public static ExtractableResponse<Response> getWithAccessToken(
         final String path, final String accessToken, final Object... pathParams
     ) {
@@ -52,6 +62,17 @@ public class RequestUtil {
             .body(bodyParam)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when().put(path, pathParams)
+            .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> patch(
+        final String path, final Map<String, Object> bodyParam, final Object... pathParams
+    ) {
+        return RestAssured
+            .given().log().all()
+            .body(bodyParam)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when().patch(path, pathParams)
             .then().log().all().extract();
     }
 
