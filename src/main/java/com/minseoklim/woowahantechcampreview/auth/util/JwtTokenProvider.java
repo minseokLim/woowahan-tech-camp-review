@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -14,28 +14,33 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import com.minseoklim.woowahantechcampreview.auth.config.property.JwtProperty;
+
 @Component
 public class JwtTokenProvider {
     static final String AUTHORITIES_KEY = "auth";
     static final String AUTHORITY_DELIMITER = ",";
 
     private final Key secretKey;
-    private final long accessTokenValidityInMilliseconds;
-    private final long refreshTokenValidityInMilliseconds;
+    private final JwtProperty jwtProperty;
 
-    public JwtTokenProvider(
-        @Value("${custom.jwt.secret-key}") final String secretKey,
-        @Value("${custom.jwt.access-token-validity-in-milliseconds}") final long accessTokenValidityInMilliseconds,
-        @Value("${custom.jwt.refresh-token-validity-in-milliseconds}") final long refreshTokenValidityInMilliseconds
+    @Autowired
+    public JwtTokenProvider(final JwtProperty jwtProperty) {
+        this.jwtProperty = jwtProperty;
+        this.secretKey = Keys.hmacShaKeyFor(jwtProperty.getSecretKey().getBytes());
+    }
+
+    JwtTokenProvider(
+        final String secretKey,
+        final long accessTokenValidityInMilliseconds,
+        final long refreshTokenValidityInMilliseconds
     ) {
-        this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
-        this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds;
-        this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds;
+        this(new JwtProperty(secretKey, accessTokenValidityInMilliseconds, refreshTokenValidityInMilliseconds));
     }
 
     public String createAccessToken(final Authentication authentication) {
         final Date now = new Date();
-        final Date validity = new Date(now.getTime() + accessTokenValidityInMilliseconds);
+        final Date validity = new Date(now.getTime() + jwtProperty.getAccessTokenValidityInMilliseconds());
 
         return Jwts.builder()
             .setSubject(authentication.getName())
@@ -48,7 +53,7 @@ public class JwtTokenProvider {
 
     public String createRefreshToken() {
         final Date now = new Date();
-        final Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
+        final Date validity = new Date(now.getTime() + jwtProperty.getRefreshTokenValidityInMilliseconds());
 
         return Jwts.builder()
             .signWith(secretKey, SignatureAlgorithm.HS512)

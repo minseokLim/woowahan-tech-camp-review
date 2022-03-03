@@ -2,7 +2,6 @@ package com.minseoklim.woowahantechcampreview.user.application;
 
 import java.time.Duration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.minseoklim.woowahantechcampreview.common.dto.EmailDto;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.common.util.EmailSender;
+import com.minseoklim.woowahantechcampreview.user.config.property.ResetPasswordProperty;
 import com.minseoklim.woowahantechcampreview.user.domain.ResetPasswordToken;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.repository.ResetPasswordTokenRepository;
@@ -24,26 +24,20 @@ public class ResetPasswordService {
     private final UserRepository userRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-
-    @Value("${custom.reset-password.token-validity-in-milliseconds}")
-    private long tokenValidityInMilliseconds;
-    @Value("${custom.email.default-from-address}")
-    private String defaultFromAddress;
-    @Value("${custom.reset-password.email-subject}")
-    private String resetPasswordEmailSubject;
-    @Value("${custom.reset-password.email-text-format}")
-    private String resetPasswordEmailTextFormat;
+    private final ResetPasswordProperty resetPasswordProperty;
 
     public ResetPasswordService(
         final ResetPasswordTokenRepository resetPasswordTokenRepository,
         final UserRepository userRepository,
         final EmailSender emailSender,
-        final PasswordEncoder passwordEncoder
+        final PasswordEncoder passwordEncoder,
+        final ResetPasswordProperty resetPasswordProperty
     ) {
         this.resetPasswordTokenRepository = resetPasswordTokenRepository;
         this.userRepository = userRepository;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
+        this.resetPasswordProperty = resetPasswordProperty;
     }
 
     public void sendEmailToResetPassword(final ResetPasswordEmailRequest emailRequest) {
@@ -71,18 +65,20 @@ public class ResetPasswordService {
     }
 
     private ResetPasswordToken createResetPasswordToken(final Long userId) {
-        return resetPasswordTokenRepository.save(new ResetPasswordToken(userId, tokenValidityInMilliseconds));
+        return resetPasswordTokenRepository.save(
+            new ResetPasswordToken(userId, resetPasswordProperty.getTokenValidityInMilliseconds())
+        );
     }
 
     private void sendEmailToResetPassword(final String toAddress, final String uriInEmail) {
         final EmailDto emailDto = EmailDto.builder()
-            .fromAddress(defaultFromAddress)
+            .fromAddress(resetPasswordProperty.getEmailFromAddress())
             .toAddress(toAddress)
-            .subject(resetPasswordEmailSubject)
+            .subject(resetPasswordProperty.getEmailSubject())
             .text(
                 String.format(
-                    resetPasswordEmailTextFormat,
-                    Duration.ofMillis(tokenValidityInMilliseconds).toHours(),
+                    resetPasswordProperty.getEmailTextFormat(),
+                    Duration.ofMillis(resetPasswordProperty.getTokenValidityInMilliseconds()).toHours(),
                     uriInEmail
                 )
             )
