@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.minseoklim.woowahantechcampreview.auth.application.AuthService;
+import com.minseoklim.woowahantechcampreview.auth.application.TokenService;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.repository.UserRepository;
@@ -19,16 +19,16 @@ import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthService authService;
+    private final TokenService tokenService;
 
     public UserService(
         final UserRepository userRepository,
         final PasswordEncoder passwordEncoder,
-        final AuthService authService
+        final TokenService tokenService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authService = authService;
+        this.tokenService = tokenService;
     }
 
     public UserResponse create(final UserRequest userRequest) {
@@ -58,14 +58,14 @@ public class UserService {
         final User user = getUserById(id);
         user.delete();
 
-        authService.invalidateRefreshToken(id);
+        tokenService.invalidateRefreshToken(id);
     }
 
     public UserResponse addRole(final Long id, final RoleRequest roleRequest) {
         final User user = getUserById(id);
         user.addRole(roleRequest.toRole());
 
-        authService.invalidateRefreshToken(id);
+        tokenService.invalidateRefreshToken(id);
 
         return UserResponse.of(user);
     }
@@ -74,7 +74,7 @@ public class UserService {
         final User user = getUserById(id);
         user.deleteRole(roleRequest.toRole());
 
-        authService.invalidateRefreshToken(id);
+        tokenService.invalidateRefreshToken(id);
     }
 
     private User getUserById(final Long id) {
