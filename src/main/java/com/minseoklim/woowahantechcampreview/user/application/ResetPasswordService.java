@@ -11,9 +11,9 @@ import com.minseoklim.woowahantechcampreview.common.dto.EmailDto;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.common.util.EmailSender;
 import com.minseoklim.woowahantechcampreview.user.domain.ResetPasswordToken;
-import com.minseoklim.woowahantechcampreview.user.domain.ResetPasswordTokenRepository;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
-import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
+import com.minseoklim.woowahantechcampreview.user.domain.repository.ResetPasswordTokenRepository;
+import com.minseoklim.woowahantechcampreview.user.domain.repository.UserRepository;
 import com.minseoklim.woowahantechcampreview.user.dto.ResetPasswordEmailRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.ResetPasswordRequest;
 

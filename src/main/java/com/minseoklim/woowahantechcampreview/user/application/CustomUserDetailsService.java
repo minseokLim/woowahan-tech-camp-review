@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.minseoklim.woowahantechcampreview.user.domain.User;
-import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
+import com.minseoklim.woowahantechcampreview.user.domain.repository.UserRepository;
 
 @Service
 @Transactional(readOnly = true)

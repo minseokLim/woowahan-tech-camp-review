@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.minseoklim.woowahantechcampreview.auth.application.AuthService;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
-import com.minseoklim.woowahantechcampreview.user.domain.UserRepository;
+import com.minseoklim.woowahantechcampreview.user.domain.repository.UserRepository;
 import com.minseoklim.woowahantechcampreview.user.dto.RoleRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserRequest;
 import com.minseoklim.woowahantechcampreview.user.dto.UserResponse;

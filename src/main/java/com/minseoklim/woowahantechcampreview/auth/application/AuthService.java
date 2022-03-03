@@ -8,8 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.RefreshToken;
-import com.minseoklim.woowahantechcampreview.auth.domain.RefreshTokenRepository;
 import com.minseoklim.woowahantechcampreview.auth.domain.RefreshTokenValidator;
+import com.minseoklim.woowahantechcampreview.auth.domain.repository.RefreshTokenRepository;
 import com.minseoklim.woowahantechcampreview.auth.dto.LoginRequest;
 import com.minseoklim.woowahantechcampreview.auth.dto.TokenRequest;
 import com.minseoklim.woowahantechcampreview.auth.dto.TokenResponse;
