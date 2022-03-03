@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.minseoklim.woowahantechcampreview.common.dto.EmailDto;
+import com.minseoklim.woowahantechcampreview.common.domain.Email;
 import com.minseoklim.woowahantechcampreview.util.TestUtil;
 
 @Profile("test")
@@ -16,11 +16,11 @@ public class DummyEmailSender implements EmailSender {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void send(final EmailDto emailDto) {
-        logger.info("Sent email : {}", emailDto);
+    public void send(final Email email) {
+        logger.info("Sent email : {}", email);
 
         try {
-            TestUtil.writeFile("sentEmailText.txt", emailDto.toString());
+            TestUtil.writeFile("sentEmailText.txt", email.toString());
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }

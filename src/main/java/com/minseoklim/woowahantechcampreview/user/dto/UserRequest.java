@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.Getter;
 
+import com.minseoklim.woowahantechcampreview.common.domain.EmailAddress;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 
 @Getter
@@ -23,7 +24,7 @@ public class UserRequest {
     @Pattern(regexp = "^[a-zA-Z가-힇0-9]{1,10}$", message = "닉네임에는 1~10자의 영문자, 한글, 숫자만 사용 가능합니다.")
     private String nickName;
 
-    @Email(message = "이메일 형식이 올바르지 않습니다.")
+    @Email(message = EmailAddress.ERR_MSG)
     private String email;
 
     public User toEntity(final PasswordEncoder passwordEncoder) {

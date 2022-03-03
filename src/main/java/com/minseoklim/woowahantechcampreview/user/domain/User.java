@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.common.BaseEntity;
+import com.minseoklim.woowahantechcampreview.common.domain.EmailAddress;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 @Entity
@@ -36,7 +37,7 @@ public class User extends BaseEntity {
     private String nickName;
 
     @Column(nullable = false)
-    private String email;
+    private EmailAddress email;
 
     @Embedded
     private Roles roles = new Roles();
@@ -47,7 +48,7 @@ public class User extends BaseEntity {
         this.loginId = loginId;
         this.password = password;
         this.nickName = nickName;
-        this.email = email;
+        this.email = new EmailAddress(email);
 
         addRole(Role.USER);
     }
@@ -56,9 +57,9 @@ public class User extends BaseEntity {
         if (!loginId.equals(other.getLoginId())) {
             throw new BadRequestException("로그인 아이디는 수정할 수 없습니다.");
         }
-        this.password = other.getPassword();
-        this.nickName = other.getNickName();
-        this.email = other.getEmail();
+        this.password = other.password;
+        this.nickName = other.nickName;
+        this.email = other.email;
     }
 
     public void delete() {
@@ -75,6 +76,10 @@ public class User extends BaseEntity {
 
     public void changePassword(final String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email.getEmailAddress();
     }
 
     public List<Role> getRoles() {

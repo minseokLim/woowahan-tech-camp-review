@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.minseoklim.woowahantechcampreview.common.dto.EmailDto;
+import com.minseoklim.woowahantechcampreview.common.domain.Email;
 
 @Profile("!test")
 @Component
@@ -16,7 +16,7 @@ public class EmailSenderImpl implements EmailSender {
     }
 
     @Override
-    public void send(final EmailDto emailDto) {
-        javaMailSender.send(emailDto.toMimeMessage(javaMailSender));
+    public void send(final Email email) {
+        javaMailSender.send(email.toMimeMessage(javaMailSender));
     }
 }
