@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.Role;
@@ -20,7 +19,6 @@ import com.minseoklim.woowahantechcampreview.common.domain.EmailAddress;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @Id
@@ -28,13 +26,13 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String loginId;
+    private LoginId loginId;
 
     @Column(nullable = false)
-    private String password;
+    private Password password;
 
     @Column(nullable = false)
-    private String nickName;
+    private Name nickName;
 
     @Column(nullable = false)
     private EmailAddress email;
@@ -44,17 +42,17 @@ public class User extends BaseEntity {
 
     private boolean deleted = false;
 
-    public User(final String loginId, final String password, final String nickName, final String email) {
-        this.loginId = loginId;
+    public User(final String loginId, final Password password, final String nickName, final String email) {
+        this.loginId = new LoginId(loginId);
         this.password = password;
-        this.nickName = nickName;
+        this.nickName = new Name(nickName);
         this.email = new EmailAddress(email);
 
         addRole(Role.USER);
     }
 
     public void update(final User other) {
-        if (!loginId.equals(other.getLoginId())) {
+        if (!loginId.equals(other.loginId)) {
             throw new BadRequestException("로그인 아이디는 수정할 수 없습니다.");
         }
         this.password = other.password;
@@ -74,8 +72,24 @@ public class User extends BaseEntity {
         roles.deleteRole(role);
     }
 
-    public void changePassword(final String password) {
+    public void changePassword(final Password password) {
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLoginId() {
+        return loginId.getLoginId();
+    }
+
+    public String getPassword() {
+        return password.getPassword();
+    }
+
+    public String getNickName() {
+        return nickName.getName();
     }
 
     public String getEmail() {
@@ -84,5 +98,9 @@ public class User extends BaseEntity {
 
     public List<Role> getRoles() {
         return Collections.unmodifiableList(roles.getRoles());
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

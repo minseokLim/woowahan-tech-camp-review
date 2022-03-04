@@ -4,15 +4,19 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 class UserTest {
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Test
     void create() {
         // when
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
 
         // then
         assertThat(user).isNotNull();
@@ -21,8 +25,8 @@ class UserTest {
     @Test
     void update() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
-        final User newUser = new User("test1234", "newPassword1234", "newNickNm", "new@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
+        final User newUser = new User("test1234", new Password("new12345", passwordEncoder), "new", "new@test.com");
 
         // when
         user.update(newUser);
@@ -37,8 +41,8 @@ class UserTest {
     @DisplayName("로그인 아이디를 수정 시도 시 예외 발생")
     void updateLoginId() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
-        final User newUser = new User("mslim", "newPassword1234", "newNickNm", "new@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
+        final User newUser = new User("mslim", new Password("new12345", passwordEncoder), "new", "new@test.com");
 
         // when, then
         assertThatExceptionOfType(BadRequestException.class)
@@ -48,7 +52,7 @@ class UserTest {
     @Test
     void delete() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
 
         // when
         user.delete();
@@ -60,7 +64,7 @@ class UserTest {
     @Test
     void addRole() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
 
         // when
         user.addRole(Role.ADMIN);
@@ -72,7 +76,7 @@ class UserTest {
     @Test
     void deleteRole() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
         user.addRole(Role.ADMIN);
 
         // when
@@ -85,12 +89,12 @@ class UserTest {
     @Test
     void changePassword() {
         // given
-        final User user = new User("test1234", "password1234", "테스트계정", "test@test.com");
+        final User user = new User("test1234", new Password("password1234", passwordEncoder), "테스트계정", "test@test.com");
 
         // when
-        user.changePassword("newPassword111");
+        user.changePassword(new Password("newPassword111", passwordEncoder));
 
         // then
-        assertThat(user.getPassword()).isEqualTo("newPassword111");
+        assertThat(passwordEncoder.matches("newPassword111", user.getPassword())).isTrue();
     }
 }

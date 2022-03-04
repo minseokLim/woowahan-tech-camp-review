@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.minseoklim.woowahantechcampreview.common.domain.Email;
-import com.minseoklim.woowahantechcampreview.common.domain.EmailAddress;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.common.util.EmailSender;
 import com.minseoklim.woowahantechcampreview.user.config.property.ResetPasswordProperty;
@@ -44,7 +43,7 @@ public class ResetPasswordService {
     public void sendEmailToResetPassword(final ResetPasswordEmailRequest emailRequest) {
         final User user =
             userRepository.findByLoginIdAndEmailAndDeleted(
-                emailRequest.getLoginId(), new EmailAddress(emailRequest.getEmail()), false
+                emailRequest.getWrappedLoginId(), emailRequest.getWrappedEmail(), false
             ).orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         final ResetPasswordToken token = createResetPasswordToken(user.getId());

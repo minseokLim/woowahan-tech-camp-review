@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.minseoklim.woowahantechcampreview.user.domain.LoginId;
 import com.minseoklim.woowahantechcampreview.user.domain.User;
 import com.minseoklim.woowahantechcampreview.user.domain.repository.UserRepository;
 
@@ -22,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return userRepository.findByLoginId(username)
+        return userRepository.findByLoginId(new LoginId(username))
             .map(this::toUserDetails)
             .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
     }
