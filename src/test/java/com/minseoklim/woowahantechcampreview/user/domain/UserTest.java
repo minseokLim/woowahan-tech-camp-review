@@ -33,7 +33,7 @@ class UserTest {
 
         // then
         assertThat(user.getPassword()).isEqualTo(newUser.getPassword());
-        assertThat(user.getNickName()).isEqualTo(newUser.getNickName());
+        assertThat(user.getName()).isEqualTo(newUser.getName());
         assertThat(user.getEmail()).isEqualTo(newUser.getEmail());
     }
 

@@ -2,6 +2,7 @@ package com.minseoklim.woowahantechcampreview.user.domain;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -18,17 +19,18 @@ public class LoginId {
     public static final String ERR_MSG = "로그인 ID에는 5~20자의 영문 소문자, 숫자만 사용 가능합니다.";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-    private String loginId;
+    @Column(unique = true, nullable = false, name = "login_id")
+    private String value;
 
     public LoginId(final String loginId) {
         if (!PATTERN.matcher(loginId).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }
-        this.loginId = loginId;
+        this.value = loginId;
     }
 
     @Override
     public String toString() {
-        return loginId;
+        return value;
     }
 }

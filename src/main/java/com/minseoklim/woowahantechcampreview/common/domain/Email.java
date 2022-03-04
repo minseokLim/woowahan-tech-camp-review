@@ -53,8 +53,8 @@ public class Email {
         final boolean multipart = attachedFile != null;
 
         final MimeMessageHelper messageHelper = new MimeMessageHelper(message, multipart);
-        messageHelper.setFrom(fromAddress.getEmailAddress());
-        messageHelper.setTo(toAddress.getEmailAddress());
+        messageHelper.setFrom(fromAddress.getValue());
+        messageHelper.setTo(toAddress.getValue());
         content.apply(messageHelper);
 
         if (multipart) {

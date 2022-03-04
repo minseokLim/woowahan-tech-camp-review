@@ -2,6 +2,7 @@ package com.minseoklim.woowahantechcampreview.user.domain;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,12 +21,13 @@ public class Password {
     public static final String ERR_MSG = "비밀번호는 8~20자, 최소 하나의 영문자 및 하나의 숫자로 구성되어야 합니다.";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-    private String password;
+    @Column(nullable = false, name = "password")
+    private String encodedPassword;
 
     public Password(final String rawPassword, final PasswordEncoder passwordEncoder) {
         if (!PATTERN.matcher(rawPassword).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }
-        this.password = passwordEncoder.encode(rawPassword);
+        this.encodedPassword = passwordEncoder.encode(rawPassword);
     }
 }

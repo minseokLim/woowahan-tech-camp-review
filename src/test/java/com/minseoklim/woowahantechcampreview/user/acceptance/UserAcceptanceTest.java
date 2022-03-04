@@ -322,8 +322,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
         final Map<String, Object> expectedUser
     ) {
         final var actualUser = extractResponse(response, Map.class);
-        assertThat(actualUser.get("loginId")).isEqualTo(expectedUser.get("loginId"));
-        assertThat(actualUser.get("nickName")).isEqualTo(expectedUser.get("nickName"));
-        assertThat(actualUser.get("email")).isEqualTo(expectedUser.get("email"));
+        assertThat(actualUser).containsEntry("loginId", expectedUser.get("loginId"));
+        assertThat(actualUser).containsEntry("nickName", expectedUser.get("nickName"));
+        assertThat(actualUser).containsEntry("email", expectedUser.get("email"));
     }
 }

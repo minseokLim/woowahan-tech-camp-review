@@ -2,6 +2,7 @@ package com.minseoklim.woowahantechcampreview.user.domain;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.AccessLevel;
@@ -18,17 +19,18 @@ public class Name {
     public static final String ERR_MSG = "이름에는 1~10자의 영문자, 한글, 숫자만 사용 가능합니다.";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-    private String name;
+    @Column(nullable = false, name = "name")
+    private String value;
 
     public Name(final String name) {
         if (!PATTERN.matcher(name).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }
-        this.name = name;
+        this.value = name;
     }
 
     @Override
     public String toString() {
-        return name;
+        return value;
     }
 }

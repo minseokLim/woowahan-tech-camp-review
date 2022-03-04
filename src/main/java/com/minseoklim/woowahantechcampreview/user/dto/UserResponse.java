@@ -41,7 +41,7 @@ public class UserResponse {
         return new UserResponse(
             user.getId(),
             user.getLoginId(),
-            user.getNickName(),
+            user.getName(),
             user.getEmail(),
             user.getRoles(),
             user.isDeleted()

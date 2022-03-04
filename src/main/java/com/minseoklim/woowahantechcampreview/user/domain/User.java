@@ -3,8 +3,6 @@ package com.minseoklim.woowahantechcampreview.user.domain;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,27 +23,22 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private LoginId loginId;
 
-    @Column(nullable = false)
     private Password password;
 
-    @Column(nullable = false)
-    private Name nickName;
+    private Name name;
 
-    @Column(nullable = false)
     private EmailAddress email;
 
-    @Embedded
     private Roles roles = new Roles();
 
     private boolean deleted = false;
 
-    public User(final String loginId, final Password password, final String nickName, final String email) {
+    public User(final String loginId, final Password password, final String name, final String email) {
         this.loginId = new LoginId(loginId);
         this.password = password;
-        this.nickName = new Name(nickName);
+        this.name = new Name(name);
         this.email = new EmailAddress(email);
 
         addRole(Role.USER);
@@ -56,7 +49,7 @@ public class User extends BaseEntity {
             throw new BadRequestException("로그인 아이디는 수정할 수 없습니다.");
         }
         this.password = other.password;
-        this.nickName = other.nickName;
+        this.name = other.name;
         this.email = other.email;
     }
 
@@ -81,23 +74,23 @@ public class User extends BaseEntity {
     }
 
     public String getLoginId() {
-        return loginId.getLoginId();
+        return loginId.getValue();
     }
 
     public String getPassword() {
-        return password.getPassword();
+        return password.getEncodedPassword();
     }
 
-    public String getNickName() {
-        return nickName.getName();
+    public String getName() {
+        return name.getValue();
     }
 
     public String getEmail() {
-        return email.getEmailAddress();
+        return email.getValue();
     }
 
     public List<Role> getRoles() {
-        return Collections.unmodifiableList(roles.getRoles());
+        return Collections.unmodifiableList(roles.getValues());
     }
 
     public boolean isDeleted() {

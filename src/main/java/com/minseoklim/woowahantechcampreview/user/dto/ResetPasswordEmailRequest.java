@@ -18,7 +18,7 @@ public class ResetPasswordEmailRequest {
     private String email;
 
     @Pattern(
-        regexp = "^(?i)(https?)://((\\w|-)+\\.)+\\w+(:\\d+)*(/(\\w|-)+)*(/(\\w|-)+\\.\\w+)?$",
+        regexp = "^(?i)(https?)://([\\w-]+\\.)+\\w+(:\\d+)*(/[\\w-]+)*(/[\\w-]+\\.\\w+)?$",
         message = "유효하지 않은 URI 입니다."
     )
     private String uriToResetPassword;
