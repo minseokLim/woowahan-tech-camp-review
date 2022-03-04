@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 import com.minseoklim.woowahantechcampreview.common.BaseEntity;
-import com.minseoklim.woowahantechcampreview.common.domain.EmailAddress;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 @Entity
@@ -29,7 +28,7 @@ public class User extends BaseEntity {
 
     private Name name;
 
-    private EmailAddress email;
+    private Email email;
 
     private Roles roles = new Roles();
 
@@ -39,7 +38,7 @@ public class User extends BaseEntity {
         this.loginId = new LoginId(loginId);
         this.password = password;
         this.name = new Name(name);
-        this.email = new EmailAddress(email);
+        this.email = new Email(email);
 
         addRole(Role.USER);
     }

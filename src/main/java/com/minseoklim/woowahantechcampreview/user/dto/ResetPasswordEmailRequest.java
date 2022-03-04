@@ -27,7 +27,7 @@ public class ResetPasswordEmailRequest {
         return new LoginId(loginId);
     }
 
-    public EmailAddress getWrappedEmail() {
-        return new EmailAddress(email);
+    public com.minseoklim.woowahantechcampreview.user.domain.Email getWrappedEmail() {
+        return new com.minseoklim.woowahantechcampreview.user.domain.Email(email);
     }
 }
