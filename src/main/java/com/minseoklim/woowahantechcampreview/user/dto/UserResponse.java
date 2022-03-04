@@ -43,7 +43,7 @@ public class UserResponse {
             user.getLoginId(),
             user.getName(),
             user.getEmail(),
-            user.getRoles(),
+            user.getUserRoles(),
             user.isDeleted()
         );
     }

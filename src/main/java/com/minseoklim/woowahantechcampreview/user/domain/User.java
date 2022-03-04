@@ -1,6 +1,5 @@
 package com.minseoklim.woowahantechcampreview.user.domain;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -30,7 +29,7 @@ public class User extends BaseEntity {
 
     private Email email;
 
-    private Roles roles = new Roles();
+    private UserRoles userRoles = new UserRoles();
 
     private boolean deleted = false;
 
@@ -57,11 +56,11 @@ public class User extends BaseEntity {
     }
 
     public void addRole(final Role role) {
-        roles.addRole(role);
+        userRoles.addRole(role);
     }
 
     public void deleteRole(final Role role) {
-        roles.deleteRole(role);
+        userRoles.deleteRole(role);
     }
 
     public void changePassword(final Password password) {
@@ -88,8 +87,8 @@ public class User extends BaseEntity {
         return email.getValue();
     }
 
-    public List<Role> getRoles() {
-        return Collections.unmodifiableList(roles.getValues());
+    public List<Role> getUserRoles() {
+        return userRoles.getRoles();
     }
 
     public boolean isDeleted() {

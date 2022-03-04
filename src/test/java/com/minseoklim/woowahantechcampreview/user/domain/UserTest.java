@@ -70,7 +70,7 @@ class UserTest {
         user.addRole(Role.ADMIN);
 
         // then
-        assertThat(user.getRoles()).contains(Role.ADMIN);
+        assertThat(user.getUserRoles()).contains(Role.ADMIN);
     }
 
     @Test
@@ -83,7 +83,7 @@ class UserTest {
         user.deleteRole(Role.ADMIN);
 
         // then
-        assertThat(user.getRoles()).doesNotContain(Role.ADMIN);
+        assertThat(user.getUserRoles()).doesNotContain(Role.ADMIN);
     }
 
     @Test
