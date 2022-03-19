@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,9 @@ public class User extends BaseEntity {
         final String email
     ) {
         this.loginId = new LoginId(loginId);
-        this.password = new Password(password, passwordEncoder);
+        if (StringUtils.hasText(password)) {
+            this.password = new Password(password, passwordEncoder);
+        }
         this.name = new Name(name);
         this.email = new Email(email);
 
@@ -54,7 +57,9 @@ public class User extends BaseEntity {
         if (!loginId.equals(other.loginId)) {
             throw new BadRequestException("로그인 아이디는 수정할 수 없습니다.");
         }
-        this.password = other.password;
+        if (other.password != null) {
+            this.password = other.password;
+        }
         this.name = other.name;
         this.email = other.email;
     }

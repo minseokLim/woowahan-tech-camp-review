@@ -38,6 +38,21 @@ class UserTest {
     }
 
     @Test
+    @DisplayName("비밀번호 정보는 변경될 때만 클라이언트로부터 넘어올 수 있다. 따라서 password가 null인 경우에는 기존 password가 유지되어야 한다.")
+    void updateExceptPassword() {
+        // given
+        final User user = new User("test1234", "password1234", passwordEncoder, "테스트계정", "test@test.com");
+        final User newUser = new User("test1234", null, passwordEncoder, "new", "new@test.com");
+        final String oldPassword = user.getPassword();
+
+        // when
+        user.update(newUser);
+
+        // then
+        assertThat(user.getPassword()).isEqualTo(oldPassword);
+    }
+
+    @Test
     @DisplayName("로그인 아이디를 수정 시도 시 예외 발생")
     void updateLoginId() {
         // given
