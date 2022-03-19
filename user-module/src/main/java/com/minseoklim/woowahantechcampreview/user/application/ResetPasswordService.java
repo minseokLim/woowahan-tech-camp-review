@@ -57,7 +57,7 @@ public class ResetPasswordService {
         final User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
-        user.changePassword(resetPasswordRequest.getEncodedPassword(passwordEncoder));
+        user.changePassword(resetPasswordRequest.getPassword(), passwordEncoder);
     }
 
     public ResetPasswordToken getResetPasswordToken(final String token) {

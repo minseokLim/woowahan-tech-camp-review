@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -33,9 +35,15 @@ public class User extends BaseEntity {
 
     private boolean deleted = false;
 
-    public User(final String loginId, final Password password, final String name, final String email) {
+    public User(
+        final String loginId,
+        final String password,
+        final PasswordEncoder passwordEncoder,
+        final String name,
+        final String email
+    ) {
         this.loginId = new LoginId(loginId);
-        this.password = password;
+        this.password = new Password(password, passwordEncoder);
         this.name = new Name(name);
         this.email = new Email(email);
 
@@ -63,8 +71,8 @@ public class User extends BaseEntity {
         userRoles.deleteRole(role);
     }
 
-    public void changePassword(final Password password) {
-        this.password = password;
+    public void changePassword(final String password, final PasswordEncoder passwordEncoder) {
+        this.password = new Password(password, passwordEncoder);
     }
 
     public Long getId() {

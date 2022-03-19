@@ -28,6 +28,6 @@ public class UserRequest {
     private String email;
 
     public User toEntity(final PasswordEncoder passwordEncoder) {
-        return new User(loginId, new Password(password, passwordEncoder), nickName, email);
+        return new User(loginId, password, passwordEncoder, nickName, email);
     }
 }
