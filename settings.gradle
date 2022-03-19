@@ -1,1 +1,6 @@
 rootProject.name = 'woowahan-tech-camp-review'
+include 'app-module'
+include 'auth-module'
+include 'common-module'
+include 'user-module'
+include 'test-module'

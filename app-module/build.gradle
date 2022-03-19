@@ -1,0 +1,12 @@
+dependencies {
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // module
+    implementation project(':auth-module')
+    implementation project(':user-module')
+    implementation project(':common-module')
+}

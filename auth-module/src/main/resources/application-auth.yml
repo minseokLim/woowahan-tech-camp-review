@@ -1,0 +1,5 @@
+custom:
+  jwt:
+    secret-key: ${secretKey}
+    access-token-validity-in-milliseconds: 3600000
+    refresh-token-validity-in-milliseconds: 86400000
