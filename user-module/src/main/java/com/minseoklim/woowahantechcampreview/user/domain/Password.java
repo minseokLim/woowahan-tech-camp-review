@@ -24,7 +24,7 @@ public class Password {
     @Column(nullable = false, name = "password")
     private String encodedPassword;
 
-    public Password(final String rawPassword, final PasswordEncoder passwordEncoder) {
+    Password(final String rawPassword, final PasswordEncoder passwordEncoder) {
         if (!PATTERN.matcher(rawPassword).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }

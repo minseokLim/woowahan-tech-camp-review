@@ -18,7 +18,7 @@ public class Email {
     @Column(nullable = false, name = "email")
     private String value;
 
-    public Email(final String emailAddress) {
+    Email(final String emailAddress) {
         EmailAddress.validate(emailAddress);
         this.value = emailAddress;
     }

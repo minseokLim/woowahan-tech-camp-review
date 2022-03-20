@@ -42,8 +42,8 @@ public class ResetPasswordService {
 
     public void sendEmailToResetPassword(final ResetPasswordEmailRequest emailRequest) {
         final User user =
-            userRepository.findByLoginIdAndEmailAndDeleted(
-                emailRequest.getWrappedLoginId(), emailRequest.getWrappedEmail(), false
+            userRepository.findByLoginIdValueAndEmailValueAndDeleted(
+                emailRequest.getLoginId(), emailRequest.getEmail(), false
             ).orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
 
         final ResetPasswordToken token = createResetPasswordToken(user.getId());

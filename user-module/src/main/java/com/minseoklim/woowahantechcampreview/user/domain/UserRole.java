@@ -24,7 +24,7 @@ public class UserRole {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public UserRole(final Role role) {
+    UserRole(final Role role) {
         this.role = role;
     }
 

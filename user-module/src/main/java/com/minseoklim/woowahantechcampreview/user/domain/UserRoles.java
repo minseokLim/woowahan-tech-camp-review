@@ -10,9 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRoles {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")

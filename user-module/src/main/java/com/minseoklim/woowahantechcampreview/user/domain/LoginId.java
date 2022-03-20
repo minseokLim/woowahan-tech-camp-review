@@ -22,7 +22,7 @@ public class LoginId {
     @Column(unique = true, nullable = false, name = "login_id")
     private String value;
 
-    public LoginId(final String loginId) {
+    LoginId(final String loginId) {
         if (!PATTERN.matcher(loginId).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }

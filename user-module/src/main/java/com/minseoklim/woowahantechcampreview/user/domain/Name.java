@@ -22,7 +22,7 @@ public class Name {
     @Column(nullable = false, name = "name")
     private String value;
 
-    public Name(final String name) {
+    Name(final String name) {
         if (!PATTERN.matcher(name).matches()) {
             throw new IllegalArgumentException(ERR_MSG);
         }
