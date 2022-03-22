@@ -1,0 +1,17 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured'
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testFixturesImplementation 'io.rest-assured:rest-assured'
+
+    // module
+    testImplementation testFixtures(project(':auth-module'))
+    testImplementation testFixtures(project(':user-module'))
+    testImplementation testFixtures(project(':common-module'))
+    testImplementation project(':test-module')
+    testFixturesImplementation project(':test-module')
+}

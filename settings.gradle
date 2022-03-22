@@ -4,3 +4,5 @@ include 'auth-module'
 include 'common-module'
 include 'user-module'
 include 'test-module'
+include 'lotto-module'
+
