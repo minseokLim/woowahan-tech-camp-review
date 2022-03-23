@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenProvider;
 import com.minseoklim.woowahantechcampreview.auth.domain.RefreshToken;
 import com.minseoklim.woowahantechcampreview.auth.domain.repository.RefreshTokenRepository;
 import com.minseoklim.woowahantechcampreview.auth.dto.TokenResponse;
-import com.minseoklim.woowahantechcampreview.auth.util.JwtTokenProvider;
 
 @Service
 public class TokenService {

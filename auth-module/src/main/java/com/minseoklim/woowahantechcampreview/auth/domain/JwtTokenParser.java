@@ -1,6 +1,6 @@
-package com.minseoklim.woowahantechcampreview.auth.util;
+package com.minseoklim.woowahantechcampreview.auth.domain;
 
-import static com.minseoklim.woowahantechcampreview.auth.util.JwtTokenProvider.*;
+import static com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenProvider.*;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -22,8 +22,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-
-import com.minseoklim.woowahantechcampreview.auth.domain.Role;
 
 @Component
 public class JwtTokenParser {
@@ -54,18 +52,19 @@ public class JwtTokenParser {
     }
 
     public boolean validateAccessToken(final String token) {
-        return validateToken(token, false);
+        return validateToken(token, TokenType.ACCESS);
     }
 
     public boolean validateRefreshToken(final String token) {
-        return validateToken(token, true);
+        return validateToken(token, TokenType.REFRESH);
     }
 
-    private boolean validateToken(final String token, final boolean isRefreshToken) {
+    private boolean validateToken(final String token, final TokenType tokenType) {
         try {
             final Claims claims = jwtParser.parseClaimsJws(token).getBody();
-            final boolean additionalCondition = (claims.getSubject() != null) ^ isRefreshToken;
-            return !claims.getExpiration().before(new Date()) && additionalCondition;
+            final TokenType extractedType = TokenType.valueOf((String)claims.get(TOKEN_TYPE_KEY));
+
+            return !claims.getExpiration().before(new Date()) && extractedType == tokenType;
         } catch (final JwtException | IllegalArgumentException exception) {
             return false;
         }

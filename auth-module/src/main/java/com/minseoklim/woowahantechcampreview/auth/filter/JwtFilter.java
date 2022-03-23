@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.minseoklim.woowahantechcampreview.auth.util.JwtTokenParser;
+import com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenParser;
 
 @Component
 public class JwtFilter implements Filter {

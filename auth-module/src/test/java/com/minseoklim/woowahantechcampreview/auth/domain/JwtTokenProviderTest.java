@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth.util;
+package com.minseoklim.woowahantechcampreview.auth.domain;
 
 import static com.minseoklim.woowahantechcampreview.auth.domain.Role.*;
 import static org.assertj.core.api.Assertions.*;

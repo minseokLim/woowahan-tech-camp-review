@@ -4,10 +4,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.minseoklim.woowahantechcampreview.auth.domain.JwtTokenParser;
 import com.minseoklim.woowahantechcampreview.auth.domain.RefreshTokenValidator;
 import com.minseoklim.woowahantechcampreview.auth.dto.TokenRequest;
 import com.minseoklim.woowahantechcampreview.auth.dto.TokenResponse;
-import com.minseoklim.woowahantechcampreview.auth.util.JwtTokenParser;
 
 @Service
 public class AuthService {

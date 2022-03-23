@@ -1,4 +1,4 @@
-package com.minseoklim.woowahantechcampreview.auth.util;
+package com.minseoklim.woowahantechcampreview.auth.domain;
 
 import java.security.Key;
 import java.util.Collection;
@@ -20,6 +20,7 @@ import com.minseoklim.woowahantechcampreview.auth.config.property.JwtProperty;
 public class JwtTokenProvider {
     static final String AUTHORITIES_KEY = "auth";
     static final String AUTHORITY_DELIMITER = ",";
+    static final String TOKEN_TYPE_KEY = "typ";
 
     private final Key secretKey;
     private final JwtProperty jwtProperty;
@@ -45,6 +46,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, toString(authentication.getAuthorities()))
+            .claim(TOKEN_TYPE_KEY, TokenType.ACCESS)
             .signWith(secretKey, SignatureAlgorithm.HS512)
             .setIssuedAt(now)
             .setExpiration(validity)
@@ -56,6 +58,7 @@ public class JwtTokenProvider {
         final Date validity = new Date(now.getTime() + jwtProperty.getRefreshTokenValidityInMilliseconds());
 
         return Jwts.builder()
+            .claim(TOKEN_TYPE_KEY, TokenType.REFRESH)
             .signWith(secretKey, SignatureAlgorithm.HS512)
             .setIssuedAt(now)
             .setExpiration(validity)

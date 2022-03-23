@@ -3,7 +3,6 @@ package com.minseoklim.woowahantechcampreview.auth.domain;
 import org.springframework.stereotype.Component;
 
 import com.minseoklim.woowahantechcampreview.auth.domain.repository.RefreshTokenRepository;
-import com.minseoklim.woowahantechcampreview.auth.util.JwtTokenParser;
 import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 
 @Component

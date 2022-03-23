@@ -15,9 +15,9 @@ import io.restassured.response.Response;
 
 public class TestUtil {
     public static final String ADMIN_TOKEN =
-        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmluY2lwYWwiLCJhdXRoIjoiUk9MRV9BRE1JTixST0xFX1VTRVIiLCJpYXQiOjE2NDU0OTY1MzAsI"
-            + "mV4cCI6NDYxMTY4NzY2MzkyMzkxOH0.GeK1OPaTVHm2RP-VrDV-Nfbk3ytwN5JFJ-Rudt48Cdwoq-8sm_0fDrrxMNTZpE7oO_5KzJW8G"
-            + "E7Y_BctGK0JOA";
+        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfQURNSU4sUk9MRV9VU0VSIiwidHlwIjoiQUNDRVNTIiwiaWF0IjoxNjQ4M"
+            + "DMzODQ2LCJleHAiOjQ2MTE2ODc2NjY0NjEyMzR9.HLpEHGX1GPxt4E7UpndSuOrYtKxVR0PsSCv-DxnzfL-PeqbHfIMcHtybm8D44LWh"
+            + "z4KY-5WWBjfB0UttiZn75Q";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String CLASS_PATH = "src/test/resources/";
 
