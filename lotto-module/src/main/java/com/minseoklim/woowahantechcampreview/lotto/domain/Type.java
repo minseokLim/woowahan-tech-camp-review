@@ -1,5 +1,5 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
-enum LottoType {
+enum Type {
     MANUAL, AUTO
 }

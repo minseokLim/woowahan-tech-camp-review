@@ -16,6 +16,8 @@ dependencies {
     testFixturesImplementation 'io.rest-assured:rest-assured'
 
     // module
+    implementation(project(':common-module'))
+
     testImplementation testFixtures(project(':auth-module'))
     testImplementation testFixtures(project(':user-module'))
     testImplementation testFixtures(project(':common-module'))

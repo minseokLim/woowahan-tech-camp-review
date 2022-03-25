@@ -1,6 +1,8 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
+import static com.minseoklim.woowahantechcampreview.lotto.domain.Payment.*;
 import static com.minseoklim.woowahantechcampreview.lotto.domain.Purchase.*;
+import static com.minseoklim.woowahantechcampreview.lotto.domain.Type.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
@@ -15,34 +17,30 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
 class PurchaseTest {
-    @Test
-    @DisplayName("지불 금액에서 수동으로 입력된 로또의 수를 제외한 나머지에 해당하는 수만큼 자동으로 로또가 생성되는지 테스트")
-    void create() {
-        // when
-        final Purchase purchase = new Purchase(10000, 1, 1L, List.of(Set.of(1, 2, 3, 4, 5, 6)));
-
-        // then
-        assertThat(purchase.getLottos()).filteredOn(Lotto::isAuto).hasSize(9);
-    }
-
     @ParameterizedTest
     @ValueSource(ints = {999, 1001})
-    @DisplayName("지불 금액이 " + LOTTO_PRICE + "원 미만이거나 " + LOTTO_PRICE + "원으로 나누어 떨어지지 않는 경우 예외 발생")
+    @DisplayName("지불 금액이 1000원 미만이거나 1000원으로 나누어 떨어지지 않는 경우 예외 발생")
     void createByInvalidPayment(final int invalidPayment) {
+        // given
+        final List<Lotto> lottos = List.of(new Lotto(Set.of(1, 2, 3, 4, 5, 6), MANUAL));
+
         // when, then
-        assertThatThrownBy(() -> new Purchase(invalidPayment, 1, 1L, List.of(Set.of(1, 2, 3, 4, 5, 6))))
+        assertThatThrownBy(() -> new Purchase(invalidPayment, 1, 1L, lottos))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(PAYMENT_ERR_MSG);
     }
 
     @Test
     @DisplayName("지불 금액에 비해 입력되는 로또의 수가 많을 때 예외 발생")
-    void createByTooManyManualLottos() {
+    void createByTooManyLottos() {
+        // given
+        final List<Lotto> lottos =
+            List.of(new Lotto(Set.of(1, 2, 3, 4, 5, 6), MANUAL), new Lotto(Set.of(7, 8, 9, 10, 11, 12), AUTO));
+
         // when, then
-        assertThatThrownBy(() ->
-            new Purchase(1000, 1, 1L, List.of(Set.of(1, 2, 3, 4, 5, 6), Set.of(7, 8, 9, 10, 11, 12))))
+        assertThatThrownBy(() -> new Purchase(1000, 1, 1L, lottos))
             .isInstanceOf(BadRequestException.class)
-            .hasMessageContaining(OVER_MANUAL_LOTTOS_ERR_MSG);
+            .hasMessageContaining(OVER_LOTTOS_ERR_MSG);
     }
 
     @Test
@@ -50,10 +48,10 @@ class PurchaseTest {
     void createByInvalidCreatedDate() {
         // given (토요일 오후 8시)
         final LocalDateTime invalidCreatedDate = LocalDateTime.of(2022, 3, 26, 20, 0);
+        final List<Lotto> lottos = List.of(new Lotto(Set.of(1, 2, 3, 4, 5, 6), MANUAL));
 
         // when, then
-        assertThatThrownBy(() ->
-            new Purchase(10000, 1, 1L, List.of(Set.of(1, 2, 3, 4, 5, 6)), invalidCreatedDate))
+        assertThatThrownBy(() -> new Purchase(10000, 1, 1L, lottos, invalidCreatedDate))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(PURCHASE_NOT_ALLOWED_ERR_MSG);
     }

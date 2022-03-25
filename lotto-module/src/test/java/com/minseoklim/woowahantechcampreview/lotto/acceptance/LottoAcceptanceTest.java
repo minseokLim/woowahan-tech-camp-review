@@ -41,7 +41,7 @@ class LottoAcceptanceTest extends AcceptanceTest {
         // given
         final var lotto = new HashMap<String, Object>();
         lotto.put("payment", 10000);
-        lotto.put("manualLottos", List.of(List.of(1, 2, 3, 4, 5, 6), List.of(45, 44, 43, 42, 41, 40)));
+        lotto.put("manualNumbers", List.of(List.of(1, 2, 3, 4, 5, 6), List.of(45, 44, 43, 42, 41, 40)));
 
         // when
         final var buyResponse = 로또_구매_요청(lotto, accessToken);
