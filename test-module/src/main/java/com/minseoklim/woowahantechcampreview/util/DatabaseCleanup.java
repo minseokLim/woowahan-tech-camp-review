@@ -26,6 +26,7 @@ public class DatabaseCleanup {
 
         for (final String tableName : tableNames) {
             execute("TRUNCATE TABLE " + tableName);
+            execute("ALTER TABLE " + tableName + " ALTER COLUMN ID RESTART WITH 1");
         }
 
         execute("SET REFERENTIAL_INTEGRITY TRUE");
