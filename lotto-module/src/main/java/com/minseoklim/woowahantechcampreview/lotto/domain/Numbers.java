@@ -1,35 +1,25 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Embeddable;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
-import com.minseoklim.woowahantechcampreview.lotto.config.NumberConverter;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-class Numbers {
+@EqualsAndHashCode
+public class Numbers {
     static final int SIZE = 6;
     static final String INVALID_NUMBERS_ERR_MSG = "로또의 번호들은 1~45까지의 중복되지 않는 숫자 6개로 이루어져 있어야 합니다.";
 
-    @Column(nullable = false, name = "numbers")
-    @Convert(converter = NumberConverter.class)
-    private List<Number> values = new ArrayList<>();
+    private final List<Number> values;
 
-    Numbers(final Collection<Integer> numbers) {
+    public Numbers(final Collection<Integer> numbers) {
         this.values = numbers.stream()
             .distinct()
             .sorted()
-            .map(Number::new)
+            .map(Number::of)
             .collect(Collectors.toUnmodifiableList());
 
         validate();
@@ -39,6 +29,10 @@ class Numbers {
         if (values.size() != SIZE) {
             throw new BadRequestException(INVALID_NUMBERS_ERR_MSG);
         }
+    }
+
+    boolean contains(final Number number) {
+        return values.contains(number);
     }
 
     public List<Integer> getValues() {

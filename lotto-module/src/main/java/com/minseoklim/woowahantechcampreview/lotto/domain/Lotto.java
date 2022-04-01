@@ -3,6 +3,7 @@ package com.minseoklim.woowahantechcampreview.lotto.domain;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import com.minseoklim.woowahantechcampreview.lotto.config.NumbersConverter;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lotto {
@@ -20,6 +23,7 @@ public class Lotto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = NumbersConverter.class)
     private Numbers numbers;
 
     private Type type;
@@ -43,7 +47,15 @@ public class Lotto {
         return type == Type.AUTO;
     }
 
-    List<Integer> getNumbers() {
+    public Long getId() {
+        return id;
+    }
+
+    public List<Integer> getNumbers() {
         return numbers.getValues();
+    }
+
+    public Type getType() {
+        return type;
     }
 }

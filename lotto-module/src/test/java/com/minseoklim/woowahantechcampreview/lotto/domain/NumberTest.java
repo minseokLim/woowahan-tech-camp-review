@@ -14,7 +14,7 @@ class NumberTest {
     @ValueSource(ints = {0, 46})
     @DisplayName("로또의 번호는 1~45까지의 숫자만 가능하다. 아니면 예외 발생")
     void createByInvalidNumber(final int invalidNumber) {
-        assertThatThrownBy(() -> new Number(invalidNumber))
+        assertThatThrownBy(() -> Number.of(invalidNumber))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(INVALID_NUMBER_ERR_MSG);
     }

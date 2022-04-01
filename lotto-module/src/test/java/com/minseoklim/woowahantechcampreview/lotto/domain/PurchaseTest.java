@@ -21,7 +21,7 @@ class PurchaseTest {
         final List<Collection<Integer>> manualNumbers = List.of(Set.of(1, 2, 3, 4, 5, 6), Set.of(7, 8, 9, 10, 11, 12));
 
         // when
-        final Purchase purchase = new Purchase(10000, 1, 1L, manualNumbers);
+        final Purchase purchase = new Purchase(10000, new Round(1), 1L, manualNumbers);
 
         // then
         assertThat(purchase.getLottos()).filteredOn(Lotto::isAuto).hasSize(8);
@@ -34,7 +34,7 @@ class PurchaseTest {
         final List<Collection<Integer>> manualNumbers = List.of(Set.of(1, 2, 3, 4, 5, 6), Set.of(7, 8, 9, 10, 11, 12));
 
         // when, then
-        assertThatThrownBy(() -> new Purchase(1000, 1, 1L, manualNumbers))
+        assertThatThrownBy(() -> new Purchase(1000, new Round(1), 1L, manualNumbers))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(OVER_LOTTOS_ERR_MSG);
     }
@@ -47,7 +47,7 @@ class PurchaseTest {
         final List<Collection<Integer>> manualNumbers = List.of(Set.of(1, 2, 3, 4, 5, 6));
 
         // when, then
-        assertThatThrownBy(() -> new Purchase(10000, 1, 1L, manualNumbers, invalidCreatedDate))
+        assertThatThrownBy(() -> new Purchase(10000, new Round(1), 1L, manualNumbers, invalidCreatedDate))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(PURCHASE_NOT_ALLOWED_ERR_MSG);
     }

@@ -34,4 +34,8 @@ class Payment {
     int calculateMaxLottoCount() {
         return value.divide(LOTTO_PRICE, RoundingMode.FLOOR).intValue();
     }
+
+    BigDecimal getValue() {
+        return value;
+    }
 }

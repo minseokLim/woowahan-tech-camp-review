@@ -15,10 +15,10 @@ class LottoTest {
         // given
         final Set<Integer> manualNumber = Set.of(1, 2, 3, 4, 5, 6);
         final Lotto lotto = new Lotto(manualNumber, Type.MANUAL);
-        lotto.withPurchase(new Purchase(1000, 1, 1L, List.of(manualNumber)));
+        lotto.withPurchase(new Purchase(1000, new Round(1), 1L, List.of(manualNumber)));
 
         // when, then
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> lotto.withPurchase(new Purchase(2000, 2, 1L, List.of(manualNumber))));
+            .isThrownBy(() -> lotto.withPurchase(new Purchase(2000, new Round(2), 1L, List.of(manualNumber))));
     }
 }

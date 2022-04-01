@@ -43,7 +43,7 @@ public class Purchase {
 
     public Purchase(
         final int payment,
-        final int round,
+        final Round round,
         final Long userId,
         final List<Collection<Integer>> manualNumbers
     ) {
@@ -52,13 +52,13 @@ public class Purchase {
 
     Purchase(
         final int payment,
-        final int round,
+        final Round round,
         final Long userId,
         final List<Collection<Integer>> manualNumbers,
         final LocalDateTime createdDate
     ) {
         this.payment = new Payment(payment);
-        this.round = new Round(round);
+        this.round = round;
         this.userId = userId;
         this.lottos = new Lottos(makeLottos(manualNumbers)).withPurchase(this);
         this.createdDate = createdDate;
