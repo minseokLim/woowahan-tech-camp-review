@@ -13,14 +13,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
 
-class LottoTest {
+class NumbersTest {
     @Test
+    @DisplayName("로또 번호 생성 시, 오름차순으로 정렬되는지 테스트")
     void create() {
         // when
-        final Lotto lotto = new Lotto(List.of(6, 1, 3, 2, 4, 5), Type.MANUAL);
+        final Numbers numbers = new Numbers(List.of(6, 1, 3, 2, 4, 5));
 
         // then
-        assertThat(lotto.getNumbers()).containsExactly(1, 2, 3, 4, 5, 6);
+        assertThat(numbers.getValues()).containsExactly(1, 2, 3, 4, 5, 6);
     }
 
     @ParameterizedTest
@@ -28,7 +29,7 @@ class LottoTest {
     @DisplayName("로또의 번호들이 1~45까지의 중복되지 않는 숫자 6개로 이루어져 있지 않을 때 예외 발생")
     void createByInvalidNumbers(final List<Integer> invalidNumbers) {
         // when, then
-        assertThatThrownBy(() -> new Lotto(invalidNumbers, Type.MANUAL))
+        assertThatThrownBy(() -> new Numbers(invalidNumbers))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(INVALID_NUMBER_ERR_MSG);
     }
