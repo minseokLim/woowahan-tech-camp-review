@@ -39,6 +39,10 @@ public class Lotto {
         this.purchase = purchase;
     }
 
+    boolean isAuto() {
+        return type == Type.AUTO;
+    }
+
     List<Integer> getNumbers() {
         return numbers.getValues();
     }

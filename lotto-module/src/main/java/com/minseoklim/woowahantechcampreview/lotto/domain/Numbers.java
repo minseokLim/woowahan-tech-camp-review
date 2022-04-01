@@ -2,7 +2,6 @@ package com.minseoklim.woowahantechcampreview.lotto.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +20,10 @@ import com.minseoklim.woowahantechcampreview.lotto.config.IntegerListConverter;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Numbers {
-    private static final Range<Integer> RANGE = Range.closed(1, 45);
-    private static final int SIZE = 6;
+    static final int MIN = 1;
+    static final int MAX = 45;
+    static final Range<Integer> RANGE = Range.closed(MIN, MAX);
+    static final int SIZE = 6;
 
     static final String INVALID_NUMBER_ERR_MSG = "로또의 번호들은 1~45까지의 중복되지 않는 숫자 6개로 이루어져 있어야 합니다.";
 
@@ -34,7 +35,7 @@ class Numbers {
         this.values = numbers.stream()
             .distinct()
             .sorted()
-            .collect(Collectors.toList());
+            .collect(Collectors.toUnmodifiableList());
 
         validate();
     }
@@ -48,7 +49,7 @@ class Numbers {
         }
     }
 
-    List<Integer> getValues() {
-        return Collections.unmodifiableList(values);
+    public List<Integer> getValues() {
+        return values;
     }
 }

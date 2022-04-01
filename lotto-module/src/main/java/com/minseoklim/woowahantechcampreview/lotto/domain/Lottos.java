@@ -19,7 +19,7 @@ class Lottos {
     private List<Lotto> values = new ArrayList<>();
 
     Lottos(final List<Lotto> lottos) {
-        this.values = lottos;
+        this.values = Collections.unmodifiableList(lottos);
     }
 
     Lottos withPurchase(final Purchase purchase) {
@@ -28,6 +28,6 @@ class Lottos {
     }
 
     List<Lotto> getValues() {
-        return Collections.unmodifiableList(values);
+        return values;
     }
 }

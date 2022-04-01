@@ -2,7 +2,9 @@ package com.minseoklim.woowahantechcampreview.lotto.domain;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,33 +37,42 @@ public class Purchase {
 
     private LocalDateTime createdDate;
 
-    Purchase(final int payment, final int round, final Long userId, final List<Lotto> lottos) {
-        this(payment, round, userId, lottos, LocalDateTime.now());
+    Purchase(final int payment, final int round, final Long userId, final List<Collection<Integer>> manualNumbers) {
+        this(payment, round, userId, manualNumbers, LocalDateTime.now());
     }
 
     Purchase(
         final int payment,
         final int round,
         final Long userId,
-        final List<Lotto> lottos,
+        final List<Collection<Integer>> manualNumbers,
         final LocalDateTime createdDate
     ) {
         this.payment = new Payment(payment);
         this.round = round;
         this.userId = userId;
-        this.lottos = new Lottos(lottos).withPurchase(this);
+        this.lottos = new Lottos(makeLottos(manualNumbers)).withPurchase(this);
         this.createdDate = createdDate;
 
-        validate(lottos);
+        validate(manualNumbers, createdDate);
     }
 
-    private void validate(final List<Lotto> lottos) {
-        if (payment.calculateMaxLottoCount() < lottos.size()) {
+    private void validate(final List<Collection<Integer>> manualNumbers, final LocalDateTime createdDate) {
+        if (payment.calculateMaxLottoCount() < manualNumbers.size()) {
             throw new BadRequestException(OVER_LOTTOS_ERR_MSG);
         }
         if (createdDate.getDayOfWeek() == DayOfWeek.SATURDAY && createdDate.getHour() == BANNED_START_TIME) {
             throw new BadRequestException(PURCHASE_NOT_ALLOWED_ERR_MSG);
         }
+    }
+
+    private List<Lotto> makeLottos(final List<Collection<Integer>> manualNumbers) {
+        final List<Lotto> result = manualNumbers.stream()
+            .map(it -> new Lotto(it, Type.MANUAL))
+            .collect(Collectors.toList());
+        result.addAll(LottoGenerator.generate(payment.calculateMaxLottoCount() - manualNumbers.size()));
+
+        return result;
     }
 
     List<Lotto> getLottos() {
