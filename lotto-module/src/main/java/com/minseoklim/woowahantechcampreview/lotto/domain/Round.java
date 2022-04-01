@@ -23,7 +23,7 @@ public class Round {
         this.round = round;
     }
 
-    int getRound() {
+    public int getRound() {
         return round;
     }
 }

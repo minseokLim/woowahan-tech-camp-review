@@ -34,6 +34,8 @@ class LottoAcceptanceTest extends AcceptanceTest {
         사용자_생성_요청(user);
 
         accessToken = 로그인_요청(loginId, password).jsonPath().get("accessToken");
+
+        로또_회차_추가_요청(ADMIN_TOKEN);
     }
 
     @Test

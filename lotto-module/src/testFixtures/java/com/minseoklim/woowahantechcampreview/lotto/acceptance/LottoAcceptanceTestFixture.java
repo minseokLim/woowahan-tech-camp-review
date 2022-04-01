@@ -3,6 +3,7 @@ package com.minseoklim.woowahantechcampreview.lotto.acceptance;
 import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
@@ -13,6 +14,10 @@ import io.restassured.response.Response;
 import com.minseoklim.woowahantechcampreview.util.RequestUtil;
 
 public interface LottoAcceptanceTestFixture {
+    static ExtractableResponse<Response> 로또_회차_추가_요청(final String accessToken) {
+        return RequestUtil.postWithAccessToken("/lottos/rounds", accessToken, Collections.emptyMap());
+    }
+
     static ExtractableResponse<Response> 로또_구매_요청(final Map<String, Object> lotto, final String accessToken) {
         return RequestUtil.postWithAccessToken("/lottos", accessToken, lotto);
     }
