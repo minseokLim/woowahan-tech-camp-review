@@ -22,6 +22,6 @@ public class IntegerListConverter implements AttributeConverter<List<Integer>, S
     public List<Integer> convertToEntityAttribute(final String dbData) {
         return Arrays.stream(dbData.split(DELIMITER))
             .map(Integer::parseInt)
-            .collect(Collectors.toList());
+            .collect(Collectors.toUnmodifiableList());
     }
 }

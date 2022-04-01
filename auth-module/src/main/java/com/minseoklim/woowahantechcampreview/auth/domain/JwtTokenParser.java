@@ -38,7 +38,7 @@ public class JwtTokenParser {
             final Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(AUTHORITY_DELIMITER))
                     .map(Role::of)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toUnmodifiableList());
             final UserDetails principal = User.builder()
                 .username(claims.getSubject())
                 .password("N/A")
