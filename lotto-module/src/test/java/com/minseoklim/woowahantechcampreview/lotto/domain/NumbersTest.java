@@ -26,17 +26,16 @@ class NumbersTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidNumbers")
-    @DisplayName("로또의 번호들이 1~45까지의 중복되지 않는 숫자 6개로 이루어져 있지 않을 때 예외 발생")
+    @DisplayName("로또의 번호들이 중복되지 않는 숫자 6개로 이루어져 있지 않을 때 예외 발생")
     void createByInvalidNumbers(final List<Integer> invalidNumbers) {
         // when, then
         assertThatThrownBy(() -> new Numbers(invalidNumbers))
             .isInstanceOf(BadRequestException.class)
-            .hasMessageContaining(INVALID_NUMBER_ERR_MSG);
+            .hasMessageContaining(INVALID_NUMBERS_ERR_MSG);
     }
 
     private static Stream<List<Integer>> provideInvalidNumbers() {
         return Stream.of(
-            List.of(1, 2, 3, 4, 5, 46),
             List.of(1, 2, 3, 4, 5, 5),
             List.of(1, 2, 3, 4, 5),
             List.of(1, 2, 3, 4, 5, 6, 7)

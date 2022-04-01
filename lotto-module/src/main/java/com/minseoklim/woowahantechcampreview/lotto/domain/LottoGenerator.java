@@ -15,7 +15,7 @@ interface LottoGenerator {
 
     private static Lotto generateLotto() {
         final List<Integer> numbers = new ArrayList<>();
-        for (int i = Numbers.MIN; i <= Numbers.MAX; i++) {
+        for (int i = Number.MIN; i <= Number.MAX; i++) {
             numbers.add(i);
         }
         Collections.shuffle(numbers);

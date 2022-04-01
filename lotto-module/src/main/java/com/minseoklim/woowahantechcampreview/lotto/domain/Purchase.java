@@ -1,5 +1,6 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -29,7 +32,8 @@ public class Purchase {
 
     private Payment payment;
 
-    private int round;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Round round;
 
     private Long userId;
 
@@ -37,7 +41,12 @@ public class Purchase {
 
     private LocalDateTime createdDate;
 
-    Purchase(final int payment, final int round, final Long userId, final List<Collection<Integer>> manualNumbers) {
+    public Purchase(
+        final int payment,
+        final int round,
+        final Long userId,
+        final List<Collection<Integer>> manualNumbers
+    ) {
         this(payment, round, userId, manualNumbers, LocalDateTime.now());
     }
 
@@ -49,7 +58,7 @@ public class Purchase {
         final LocalDateTime createdDate
     ) {
         this.payment = new Payment(payment);
-        this.round = round;
+        this.round = new Round(round);
         this.userId = userId;
         this.lottos = new Lottos(makeLottos(manualNumbers)).withPurchase(this);
         this.createdDate = createdDate;
@@ -75,7 +84,23 @@ public class Purchase {
         return result;
     }
 
-    List<Lotto> getLottos() {
+    public Long getId() {
+        return id;
+    }
+
+    public BigDecimal getPayment() {
+        return payment.getValue();
+    }
+
+    public int getRound() {
+        return round.getRound();
+    }
+
+    public List<Lotto> getLottos() {
         return lottos.getValues();
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 }

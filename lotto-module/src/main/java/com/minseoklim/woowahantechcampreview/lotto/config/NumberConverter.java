@@ -7,21 +7,23 @@ import java.util.stream.Collectors;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.minseoklim.woowahantechcampreview.lotto.domain.Number;
+
 @Converter
-public class IntegerListConverter implements AttributeConverter<List<Integer>, String> {
+public class NumberConverter implements AttributeConverter<List<Number>, String> {
     private static final String DELIMITER = ",";
 
     @Override
-    public String convertToDatabaseColumn(final List<Integer> attribute) {
+    public String convertToDatabaseColumn(final List<Number> attribute) {
         return attribute.stream()
             .map(String::valueOf)
             .collect(Collectors.joining(DELIMITER));
     }
 
     @Override
-    public List<Integer> convertToEntityAttribute(final String dbData) {
+    public List<Number> convertToEntityAttribute(final String dbData) {
         return Arrays.stream(dbData.split(DELIMITER))
-            .map(Integer::parseInt)
+            .map(it -> new Number(Integer.parseInt(it)))
             .collect(Collectors.toUnmodifiableList());
     }
 }
