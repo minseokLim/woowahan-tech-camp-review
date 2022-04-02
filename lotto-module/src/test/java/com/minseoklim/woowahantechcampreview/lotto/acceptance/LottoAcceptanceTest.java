@@ -41,24 +41,22 @@ class LottoAcceptanceTest extends AcceptanceTest {
     @Test
     void 로또() {
         // given
-        final var lotto = new HashMap<String, Object>();
-        lotto.put("payment", 10000);
-        lotto.put("manualNumbers", List.of(List.of(1, 2, 3, 4, 5, 6), List.of(45, 44, 43, 42, 41, 40)));
+        final int payment = 10000;
+        final List<List<Integer>> manualNumbers = List.of(List.of(1, 2, 3, 4, 5, 6), List.of(45, 44, 43, 42, 41, 40));
 
         // when
-        final var buyResponse = 로또_구매_요청(lotto, accessToken);
+        final var buyResponse = 로또_구매_요청(accessToken, payment, manualNumbers);
 
         // then
         로또_구입됨(buyResponse);
 
         // given
-        final var winningResult = new HashMap<String, Object>();
-        winningResult.put("round", 1);
-        winningResult.put("winningNumbers", List.of(1, 2, 3, 4, 5, 6));
-        winningResult.put("bonusNumber", 7);
+        final int round = 1;
+        final List<Integer> winningNumbers = List.of(1, 2, 3, 4, 5, 6);
+        final int bonusNumber = 7;
 
         // when
-        final var postWinningResultResponse = 관리자가_당첨번호_입력_요청(winningResult, ADMIN_TOKEN);
+        final var postWinningResultResponse = 관리자가_당첨번호_입력_요청(ADMIN_TOKEN, round, winningNumbers, bonusNumber);
 
         // then
         당첨번호_입력됨(postWinningResultResponse);

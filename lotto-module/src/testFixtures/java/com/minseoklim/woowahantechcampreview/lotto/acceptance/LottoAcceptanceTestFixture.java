@@ -4,7 +4,8 @@ import static com.minseoklim.woowahantechcampreview.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collections;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 
@@ -18,7 +19,13 @@ public interface LottoAcceptanceTestFixture {
         return RequestUtil.postWithAccessToken("/lottos/rounds", accessToken, Collections.emptyMap());
     }
 
-    static ExtractableResponse<Response> 로또_구매_요청(final Map<String, Object> lotto, final String accessToken) {
+    static ExtractableResponse<Response> 로또_구매_요청(
+        final String accessToken, final int payment, final List<List<Integer>> manualNumbers
+    ) {
+        final var lotto = new HashMap<String, Object>();
+        lotto.put("payment", payment);
+        lotto.put("manualNumbers", manualNumbers);
+
         return RequestUtil.postWithAccessToken("/lottos", accessToken, lotto);
     }
 
@@ -28,9 +35,13 @@ public interface LottoAcceptanceTestFixture {
     }
 
     static ExtractableResponse<Response> 관리자가_당첨번호_입력_요청(
-        final Map<String, Object> winningResult,
-        final String accessToken
+        final String accessToken, final int round, final List<Integer> winningNumbers, final int bonusNumber
     ) {
+        final var winningResult = new HashMap<String, Object>();
+        winningResult.put("round", round);
+        winningResult.put("winningNumbers", winningNumbers);
+        winningResult.put("bonusNumber", bonusNumber);
+
         return RequestUtil.postWithAccessToken("/winning-results", accessToken, winningResult);
     }
 
