@@ -32,6 +32,6 @@ public class PurchaseRepositorySupport extends QuerydslRepositorySupport {
 
         final JPQLQuery<Purchase> purchaseJPQLQuery = getQuerydsl().applyPagination(pageable, query);
         final QueryResults<Purchase> results = purchaseJPQLQuery.fetchResults();
-        return new PageImpl(results.getResults(), pageable, results.getTotal());
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 }
