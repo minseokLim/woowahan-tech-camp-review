@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.minseoklim.woowahantechcampreview.auth.config.annotation.CheckAdminPe
 import com.minseoklim.woowahantechcampreview.lotto.application.LottoService;
 import com.minseoklim.woowahantechcampreview.lotto.dto.PurchaseRequest;
 import com.minseoklim.woowahantechcampreview.lotto.dto.PurchaseResponse;
+import com.minseoklim.woowahantechcampreview.lotto.dto.WinningNumberRequest;
 
 @RestController
 @RequestMapping("/lottos")
@@ -40,6 +42,15 @@ public class LottoController {
     @CheckAdminPermission
     public ResponseEntity<Void> addRound() {
         lottoService.addRound();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/rounds")
+    @CheckAdminPermission
+    public ResponseEntity<Void> applyWinningNumbers(
+        @Valid @RequestBody final WinningNumberRequest winningNumberRequest
+    ) {
+        lottoService.applyWinningNumbers(winningNumberRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

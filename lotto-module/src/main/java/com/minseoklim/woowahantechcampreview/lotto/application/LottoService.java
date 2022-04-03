@@ -3,12 +3,14 @@ package com.minseoklim.woowahantechcampreview.lotto.application;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.minseoklim.woowahantechcampreview.common.exception.NotFoundException;
 import com.minseoklim.woowahantechcampreview.lotto.domain.Purchase;
 import com.minseoklim.woowahantechcampreview.lotto.domain.Round;
 import com.minseoklim.woowahantechcampreview.lotto.domain.repository.PurchaseRepository;
 import com.minseoklim.woowahantechcampreview.lotto.domain.repository.RoundRepository;
 import com.minseoklim.woowahantechcampreview.lotto.dto.PurchaseRequest;
 import com.minseoklim.woowahantechcampreview.lotto.dto.PurchaseResponse;
+import com.minseoklim.woowahantechcampreview.lotto.dto.WinningNumberRequest;
 
 @Service
 @Transactional
@@ -31,5 +33,11 @@ public class LottoService {
     public Round addRound() {
         final Round lastRound = roundRepository.findTopByOrderByIdDesc().orElse(new Round(0));
         return roundRepository.saveAndFlush(new Round(lastRound.getRound() + 1));
+    }
+
+    public void applyWinningNumbers(final WinningNumberRequest winningNumberRequest) {
+        final Round round = roundRepository.findByRound(winningNumberRequest.getRound())
+            .orElseThrow(() -> new NotFoundException("해당 회차를 찾을 수 없습니다."));
+        round.applyWinningNumbers(winningNumberRequest.toEntity());
     }
 }

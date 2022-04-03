@@ -16,7 +16,7 @@ import com.minseoklim.woowahantechcampreview.lotto.config.NumbersConverter;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class WinningNumbers {
+public class WinningNumbers {
     static final String INVALID_BONUS_NUMBER_ERR_MSG = "보너스 번호는 당첨 번호와 겹칠 수 없습니다.";
 
     @Convert(converter = NumbersConverter.class)

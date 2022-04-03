@@ -8,4 +8,6 @@ import com.minseoklim.woowahantechcampreview.lotto.domain.Round;
 
 public interface RoundRepository extends JpaRepository<Round, Long> {
     Optional<Round> findTopByOrderByIdDesc();
+
+    Optional<Round> findByRound(final int round);
 }
