@@ -11,6 +11,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0'
+    annotationProcessor('com.querydsl:querydsl-apt:5.0.0:jpa', 'javax.persistence:javax.persistence-api', 'javax.annotation:javax.annotation-api')
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured'
@@ -26,4 +30,12 @@ dependencies {
     testImplementation testFixtures(project(':common-module'))
     testImplementation project(':test-module')
     testFixturesImplementation project(':test-module')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+        }
+    }
 }
