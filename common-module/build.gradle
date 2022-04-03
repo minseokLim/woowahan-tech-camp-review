@@ -12,6 +12,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // querydsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0'
+
     // DB
     runtimeOnly 'com.h2database:h2'
 
