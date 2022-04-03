@@ -1,5 +1,9 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +18,10 @@ import com.minseoklim.woowahantechcampreview.common.exception.BadRequestExceptio
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Round {
+    static final DayOfWeek OPENING_DAY_OF_WEEK = DayOfWeek.SATURDAY;
+    static final LocalTime OPENING_TIME = LocalTime.of(21, 0, 0, 0);
     static final String WINNING_NUMBERS_ERR_MSG = "해당 회차의 당첨 번호는 이미 입력 되었습니다.";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +29,27 @@ public class Round {
     @Column(unique = true)
     private int round;
 
+    private LocalDateTime winningNumberOpeningTime;
+
     private WinningNumbers winningNumbers;
 
-    public Round(final int round) {
+    Round(final int round) {
+        this(round, LocalDateTime.now());
+    }
+
+    public Round(final int round, final LocalDateTime winningNumberOpeningTime) {
         this.round = round;
+        this.winningNumberOpeningTime = winningNumberOpeningTime;
+    }
+
+    public static LocalDateTime computeOpeningTime(final LocalDateTime now) {
+        final DayOfWeek nowDayOfWeek = now.getDayOfWeek();
+        final int additionalDays = OPENING_DAY_OF_WEEK.getValue() - nowDayOfWeek.getValue();
+
+        if (nowDayOfWeek.compareTo(OPENING_DAY_OF_WEEK) > 0) {
+            return now.plusDays(DayOfWeek.values().length + additionalDays).with(OPENING_TIME);
+        }
+        return now.plusDays(additionalDays).with(OPENING_TIME);
     }
 
     public void applyWinningNumbers(final WinningNumbers winningNumbers) {

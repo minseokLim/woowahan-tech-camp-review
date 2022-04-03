@@ -1,5 +1,7 @@
 package com.minseoklim.woowahantechcampreview.lotto.application;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +33,9 @@ public class LottoService {
     }
 
     public Round addRound() {
-        final Round lastRound = roundRepository.findTopByOrderByIdDesc().orElse(new Round(0));
-        return roundRepository.saveAndFlush(new Round(lastRound.getRound() + 1));
+        final LocalDateTime winningNumberOpeningTime = Round.computeOpeningTime(LocalDateTime.now());
+        final int lastRound = roundRepository.findTopByOrderByIdDesc().map(Round::getRound).orElse(0);
+        return roundRepository.saveAndFlush(new Round(lastRound + 1, winningNumberOpeningTime));
     }
 
     public void applyWinningNumbers(final WinningNumberRequest winningNumberRequest) {
