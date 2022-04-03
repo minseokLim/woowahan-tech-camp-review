@@ -31,6 +31,12 @@ public class Numbers {
         }
     }
 
+    int match(final Numbers numbers) {
+        return (int)values.stream()
+            .filter(numbers::contains)
+            .count();
+    }
+
     boolean contains(final Number number) {
         return values.contains(number);
     }

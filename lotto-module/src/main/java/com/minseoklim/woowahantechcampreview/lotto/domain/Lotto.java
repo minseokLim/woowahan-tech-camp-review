@@ -1,7 +1,6 @@
 package com.minseoklim.woowahantechcampreview.lotto.domain;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -51,8 +50,8 @@ public class Lotto {
         return id;
     }
 
-    public List<Integer> getNumbers() {
-        return numbers.getValues();
+    public Numbers getNumbers() {
+        return numbers;
     }
 
     public Type getType() {

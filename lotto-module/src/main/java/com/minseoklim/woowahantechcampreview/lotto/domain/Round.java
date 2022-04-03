@@ -34,7 +34,7 @@ public class Round {
     private WinningNumbers winningNumbers;
 
     Round(final int round) {
-        this(round, LocalDateTime.now());
+        this(round, LocalDateTime.MAX);
     }
 
     public Round(final int round, final LocalDateTime winningNumberOpeningTime) {
@@ -57,6 +57,13 @@ public class Round {
             throw new BadRequestException(WINNING_NUMBERS_ERR_MSG);
         }
         this.winningNumbers = winningNumbers;
+    }
+
+    public Rank computeRank(final Lotto lotto, final LocalDateTime now) {
+        if (now.isBefore(winningNumberOpeningTime) || winningNumbers == null) {
+            return Rank.NOT_DRAWN;
+        }
+        return winningNumbers.computeRank(lotto);
     }
 
     public int getRound() {

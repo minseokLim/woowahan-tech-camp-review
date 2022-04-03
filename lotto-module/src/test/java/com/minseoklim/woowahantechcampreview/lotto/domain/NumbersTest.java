@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.minseoklim.woowahantechcampreview.common.exception.BadRequestException;
@@ -32,6 +33,32 @@ class NumbersTest {
         assertThatThrownBy(() -> new Numbers(invalidNumbers))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(INVALID_NUMBERS_ERR_MSG);
+    }
+
+    @Test
+    void match() {
+        // given
+        final Numbers numbers1 = new Numbers(List.of(1, 2, 3, 4, 5, 6));
+        final Numbers numbers2 = new Numbers(List.of(1, 2, 3, 7, 8, 9));
+
+        // when
+        final int matchCount = numbers1.match(numbers2);
+
+        // then
+        assertThat(matchCount).isEqualTo(3);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"1:true", "7:false"}, delimiter = ':')
+    void contains(final int target, final boolean expectedResult) {
+        // given
+        final Numbers numbers = new Numbers(List.of(1, 2, 3, 4, 5, 6));
+
+        // when
+        final boolean result = numbers.contains(Number.of(target));
+
+        // then
+        assertThat(result).isEqualTo(expectedResult);
     }
 
     private static Stream<List<Integer>> provideInvalidNumbers() {

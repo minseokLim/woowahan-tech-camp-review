@@ -3,6 +3,7 @@ package com.minseoklim.woowahantechcampreview.lotto.domain;
 import static com.minseoklim.woowahantechcampreview.lotto.domain.Round.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -37,5 +38,23 @@ class RoundTest {
         assertThatThrownBy(() -> round.applyWinningNumbers(new WinningNumbers(Set.of(7, 8, 9, 10, 11, 12), 13)))
             .isInstanceOf(BadRequestException.class)
             .hasMessageContaining(WINNING_NUMBERS_ERR_MSG);
+    }
+
+    @Test
+    @DisplayName("당첨 번호 오픈 시간 이전이거나 당첨 번호가 아직 null일 경우 NOT_DRAWN이 반환되는지 테스트")
+    void computeRank() {
+        // given
+        final LocalDateTime openingTime = LocalDate.of(2022, 1, 6).atStartOfDay();
+        final Round round = new Round(1, openingTime);
+        final Lotto lotto = new Lotto(Set.of(1, 2, 3, 4, 5, 6), Type.MANUAL);
+
+        // when, then
+        assertThat(round.computeRank(lotto, LocalDate.of(2022, 1, 31).atStartOfDay())).isEqualTo(Rank.NOT_DRAWN);
+
+        // given
+        round.applyWinningNumbers(new WinningNumbers(Set.of(1, 2, 3, 4, 5, 6), 7));
+
+        // when, then
+        assertThat(round.computeRank(lotto, LocalDate.of(2022, 1, 1).atStartOfDay())).isEqualTo(Rank.NOT_DRAWN);
     }
 }

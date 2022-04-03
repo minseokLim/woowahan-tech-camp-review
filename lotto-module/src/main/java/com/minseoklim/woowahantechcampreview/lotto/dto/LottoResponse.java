@@ -22,6 +22,6 @@ public class LottoResponse {
     }
 
     public static LottoResponse of(final Lotto lotto) {
-        return new LottoResponse(lotto.getId(), lotto.getNumbers(), lotto.getType());
+        return new LottoResponse(lotto.getId(), lotto.getNumbers().getValues(), lotto.getType());
     }
 }

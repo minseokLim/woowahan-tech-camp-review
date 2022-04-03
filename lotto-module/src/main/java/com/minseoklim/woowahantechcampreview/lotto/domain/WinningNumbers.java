@@ -42,4 +42,12 @@ public class WinningNumbers {
             throw new BadRequestException(INVALID_BONUS_NUMBER_ERR_MSG);
         }
     }
+
+    Rank computeRank(final Lotto lotto) {
+        final Numbers lottoNumbers = lotto.getNumbers();
+        final int countOfWinningNumberMatch = lottoNumbers.match(winningNumbers);
+        final boolean matchBonus = lottoNumbers.contains(bonusNumber);
+
+        return Rank.valueOf(countOfWinningNumberMatch, matchBonus);
+    }
 }
