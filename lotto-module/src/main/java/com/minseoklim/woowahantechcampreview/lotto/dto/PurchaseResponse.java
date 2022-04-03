@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 
 import com.minseoklim.woowahantechcampreview.lotto.domain.Purchase;
+import com.minseoklim.woowahantechcampreview.lotto.domain.Round;
+
 
 @Getter
 public class PurchaseResponse {
@@ -35,12 +37,15 @@ public class PurchaseResponse {
     }
 
     public static PurchaseResponse of(final Purchase purchase) {
+        final Round round = purchase.getRound();
+        final LocalDateTime now = LocalDateTime.now();
+
         return new PurchaseResponse(
             purchase.getId(),
             purchase.getPayment().intValue(),
-            purchase.getRound(),
+            round.getRound(),
             purchase.getLottos().stream()
-                .map(LottoResponse::of)
+                .map(it -> LottoResponse.of(it, round.computeRank(it, now)))
                 .collect(Collectors.toUnmodifiableList()),
             purchase.getCreatedDate()
         );

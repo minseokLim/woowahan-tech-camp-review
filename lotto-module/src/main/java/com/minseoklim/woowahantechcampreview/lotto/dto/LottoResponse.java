@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Getter;
 
 import com.minseoklim.woowahantechcampreview.lotto.domain.Lotto;
+import com.minseoklim.woowahantechcampreview.lotto.domain.Rank;
 import com.minseoklim.woowahantechcampreview.lotto.domain.Type;
 
 @Getter
@@ -15,13 +16,16 @@ public class LottoResponse {
 
     private final Type type;
 
-    public LottoResponse(final Long id, final List<Integer> numbers, final Type type) {
+    private final Rank rank;
+
+    public LottoResponse(final Long id, final List<Integer> numbers, final Type type, final Rank rank) {
         this.id = id;
         this.numbers = numbers;
         this.type = type;
+        this.rank = rank;
     }
 
-    public static LottoResponse of(final Lotto lotto) {
-        return new LottoResponse(lotto.getId(), lotto.getNumbers().getValues(), lotto.getType());
+    public static LottoResponse of(final Lotto lotto, final Rank rank) {
+        return new LottoResponse(lotto.getId(), lotto.getNumbers().getValues(), lotto.getType(), rank);
     }
 }

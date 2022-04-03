@@ -42,12 +42,11 @@ public interface LottoAcceptanceTestFixture {
         winningResult.put("winningNumbers", winningNumbers);
         winningResult.put("bonusNumber", bonusNumber);
 
-        return RequestUtil.postWithAccessToken("/lottos/rounds", accessToken, winningResult);
+        return RequestUtil.patchWithAccessToken("/lottos/rounds", accessToken, winningResult);
     }
 
     static void 당첨번호_입력됨(final ExtractableResponse<Response> response) {
         assertHttpStatusCode(response, HttpStatus.SC_OK);
-        assertThat(response.header("Location")).isNotNull();
     }
 
     static ExtractableResponse<Response> 당첨결과_조회_요청(final String accessToken) {

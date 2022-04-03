@@ -92,8 +92,8 @@ public class Purchase {
         return payment.getValue();
     }
 
-    public int getRound() {
-        return round.getRound();
+    public Round getRound() {
+        return round;
     }
 
     public List<Lotto> getLottos() {

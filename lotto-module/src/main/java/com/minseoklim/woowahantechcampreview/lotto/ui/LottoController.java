@@ -4,8 +4,13 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +47,7 @@ public class LottoController {
     @CheckAdminPermission
     public ResponseEntity<Void> addRound() {
         lottoService.addRound();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/rounds")
@@ -52,5 +57,14 @@ public class LottoController {
     ) {
         lottoService.applyWinningNumbers(winningNumberRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Page<PurchaseResponse>> getMyLottoPurchases(
+        @AuthenticatedUsername final Long userId,
+        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) final Pageable pageable
+    ) {
+        final Page<PurchaseResponse> lottos = lottoService.getMyLottoPurchases(userId, pageable);
+        return ResponseEntity.ok(lottos);
     }
 }
