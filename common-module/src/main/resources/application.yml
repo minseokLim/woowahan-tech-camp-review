@@ -7,6 +7,9 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        default_batch_fetch_size: 10
+        query:
+          in_clause_parameter_padding: true
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
