@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponse> create(@Valid @RequestBody final UserRequest userRequest) {
         final UserResponse createdUser = userService.create(userRequest);
-        final URI uri = URI.create("/users" + createdUser.getId());
+        final URI uri = URI.create("/users/" + createdUser.getId());
         return ResponseEntity.created(uri).body(createdUser);
     }
 

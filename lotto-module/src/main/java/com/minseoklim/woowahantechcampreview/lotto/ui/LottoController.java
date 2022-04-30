@@ -39,7 +39,7 @@ public class LottoController {
         @Valid @RequestBody final PurchaseRequest purchaseRequest
     ) {
         final PurchaseResponse purchase = lottoService.purchase(userId, purchaseRequest);
-        final URI uri = URI.create("/lottos" + purchase.getId());
+        final URI uri = URI.create("/lottos/" + purchase.getId());
         return ResponseEntity.created(uri).body(purchase);
     }
 
